@@ -331,11 +331,11 @@ export default function Home() {
             <Reveal className="flex flex-col items-start gap-6">
               <img src="/assets/images/common/footer_logo.png" alt="HMT Footer Logo" className="h-20 w-auto" />
               {/* Margins and width crop the source image down to just the three badges */}
-              <div className="relative w-64 aspect-[44/15] overflow-hidden rounded-lg bg-white shadow-[0_10px_24px_-6px_rgba(0,0,0,0.45)] ring-1 ring-white/40">
+              <div className="relative w-64 aspect-[3/1] overflow-hidden rounded-lg bg-white shadow-[0_10px_24px_-6px_rgba(0,0,0,0.45)] ring-1 ring-white/40">
                 <img
-                  src={encodeURI('/assets/images/common/bir registration sealed badge.jpg')}
+                  src={encodeURI('/assets/images/common/BIR Seal Badge.png')}
                   alt="BIR Registration Seal Badge"
-                  className="max-w-none w-[155%] -ml-[27.3%] -mt-[28%]"
+                  className="max-w-none w-[154%] -ml-[26.2%] -mt-[16.8%]"
                 />
               </div>
             </Reveal>

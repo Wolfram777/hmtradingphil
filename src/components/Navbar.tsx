@@ -45,23 +45,6 @@ const navItems: NavItem[] = [
   { name: 'CONTACT US', href: '/contact-us' },
 ];
 
-function Chevron({ open, className = '' }: { open: boolean; className?: string }) {
-  return (
-    <svg
-      className={`transition-transform duration-300 ${open ? 'rotate-180' : ''} ${className}`}
-      fill="none"
-      stroke="currentColor"
-      strokeWidth="2.5"
-      strokeLinecap="round"
-      strokeLinejoin="round"
-      viewBox="0 0 24 24"
-      aria-hidden="true"
-    >
-      <path d="M6 9l6 6 6-6" />
-    </svg>
-  );
-}
-
 export default function Navbar() {
   const [isDark, setIsDark] = useState(true);
   const [menuOpen, setMenuOpen] = useState(false);
@@ -157,11 +140,18 @@ export default function Navbar() {
     '--nav-hover-ring': light ? 'transparent' : BRAND_RED,
     '--dd-bg': light ? BRAND_RED : '#ffffff',
     '--dd-text': light ? '#ffffff' : BRAND_RED,
-    '--dd-ring': light ? 'rgba(255,255,255,0.25)' : 'rgba(0,0,0,0.05)',
   } as React.CSSProperties;
 
-  const desktopItemClass =
-    'font-archivo-narrow font-semibold text-sm px-3 py-2 rounded text-[var(--nav-text)] transition-[color,background-color,box-shadow,scale] duration-300 hover:scale-105 hover:bg-[var(--nav-hover-bg)] hover:shadow-[0_0_0_1px_var(--nav-hover-ring)]';
+  const containerClass = (active = false) =>
+    `group transition-[background-color,box-shadow,border-radius] duration-300 hover:bg-[var(--nav-hover-bg)] ${
+      active ? 'rounded-t bg-[var(--nav-hover-bg)]' : 'rounded hover:shadow-[0_0_0_1px_var(--nav-hover-ring)]'
+    }`;
+  const triggerClass =
+    'block lg:px-4 xl:px-6 py-2 font-archivo-narrow font-semibold text-sm text-[var(--nav-text)] transition-colors duration-300 cursor-pointer';
+  const underline = (active: boolean) =>
+    `relative after:absolute after:left-0 after:-bottom-1 after:h-[2px] after:w-full after:bg-current after:origin-left after:transition-[scale] after:duration-300 group-hover:after:scale-x-100 ${
+      active ? 'after:scale-x-100' : 'after:scale-x-0'
+    }`;
 
   return (
     <nav
@@ -211,7 +201,6 @@ export default function Navbar() {
                   style={itemStyle}
                 >
                   {item.name}
-                  <Chevron open={expanded} className="h-5 w-5" />
                 </button>
                 <div
                   className={`grid transition-[grid-template-rows,opacity] duration-300 ease-out ${
@@ -256,32 +245,35 @@ export default function Navbar() {
           </Link>
 
           {/* Navigation Links - Centered */}
-          <div ref={desktopNavRef} className="hidden lg:flex flex-1 justify-center lg:space-x-2 xl:space-x-6 px-8">
+          <div ref={desktopNavRef} className="hidden lg:flex flex-1 justify-center px-8">
             {navItems.map((item) => {
               if (!item.children) {
                 return (
-                  <Link key={item.name} href={item.href} className={desktopItemClass}>
-                    {item.name}
-                  </Link>
+                  <div key={item.name} className={containerClass()}>
+                    <Link href={item.href} className={triggerClass}>
+                      <span className={underline(false)}>{item.name}</span>
+                    </Link>
+                  </div>
                 );
               }
 
               const open = openDropdown === item.name;
               return (
                 <div key={item.name} className="relative">
-                  <button
-                    type="button"
-                    onClick={() => setOpenDropdown(open ? null : item.name)}
-                    aria-expanded={open}
-                    aria-haspopup="true"
-                    className={`${desktopItemClass} flex items-center gap-1 cursor-pointer`}
-                  >
-                    {item.name}
-                    <Chevron open={open} className="h-3.5 w-3.5" />
-                  </button>
+                  <div className={containerClass(open)}>
+                    <button
+                      type="button"
+                      onClick={() => setOpenDropdown(open ? null : item.name)}
+                      aria-expanded={open}
+                      aria-haspopup="true"
+                      className={triggerClass}
+                    >
+                      <span className={underline(open)}>{item.name}</span>
+                    </button>
+                  </div>
 
                   <div
-                    className={`absolute left-1/2 top-full mt-3 -translate-x-1/2 min-w-[240px] origin-top rounded-lg bg-[var(--dd-bg)] py-2 shadow-[0_18px_40px_-10px_rgba(0,0,0,0.45)] ring-1 ring-[var(--dd-ring)] transition-[opacity,translate,scale,visibility,background-color] duration-200 ease-out ${
+                    className={`absolute left-0 top-full min-w-[240px] origin-top rounded-b-lg rounded-tr-lg bg-[var(--dd-bg)] py-2 shadow-[0_18px_40px_-10px_rgba(0,0,0,0.45)] transition-[opacity,translate,scale,visibility,background-color] duration-200 ease-out ${
                       open ? 'visible opacity-100 translate-y-0 scale-100' : 'invisible opacity-0 -translate-y-2 scale-95'
                     }`}
                   >
@@ -291,10 +283,10 @@ export default function Navbar() {
                         href={child.href}
                         onClick={() => setOpenDropdown(null)}
                         tabIndex={open ? 0 : -1}
-                        className={`block whitespace-nowrap px-5 py-2.5 font-archivo-narrow font-semibold text-sm tracking-wide text-[var(--dd-text)] transition-[color,background-color,opacity,translate] duration-300 hover:bg-[var(--dd-text)] hover:text-[var(--dd-bg)] ${
-                          open ? 'opacity-100 translate-x-0' : 'opacity-0 -translate-x-2'
+                        className={`block whitespace-nowrap px-5 py-2.5 font-archivo-narrow font-semibold text-sm tracking-wide text-[var(--dd-text)] hover:bg-[var(--dd-text)] hover:text-[var(--dd-bg)] ${
+                          open ? 'animate-[dropdown-item-in_0.28s_ease-out_both]' : ''
                         }`}
-                        style={{ transitionDelay: open ? `${60 + index * 35}ms` : '0ms' }}
+                        style={{ animationDelay: open ? `${60 + index * 45}ms` : undefined }}
                       >
                         {child.name}
                       </Link>
