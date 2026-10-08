@@ -1,7 +1,7 @@
 'use client';
 
 import Image from 'next/image';
-import { useEffect, useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 
 const BRAND_RED = '#8b0c0b';
 const AUTOPLAY_MS = 5000;
@@ -42,12 +42,22 @@ export default function CollectionsCarousel() {
   }, [paused, count]);
 
   const go = (step: number) => setActive((i) => (i + step + count) % count);
+  const touchStartX = useRef<number | null>(null);
 
   return (
     <div
-      className="relative w-full flex-1 flex items-center justify-center [--size:clamp(120px,17vw,260px)]"
+      className="relative w-full flex-1 flex flex-col md:flex-row items-center justify-center [--size:clamp(150px,17vw,260px)]"
       onMouseEnter={() => setPaused(true)}
       onMouseLeave={() => setPaused(false)}
+      onTouchStart={(e) => {
+        touchStartX.current = e.touches[0].clientX;
+      }}
+      onTouchEnd={(e) => {
+        if (touchStartX.current === null) return;
+        const dx = e.changedTouches[0].clientX - touchStartX.current;
+        touchStartX.current = null;
+        if (Math.abs(dx) > 40) go(dx < 0 ? 1 : -1);
+      }}
     >
       <div className="relative h-[calc(var(--size)+4rem)] w-full [perspective:1200px]">
         {collections.map((item, index) => {
@@ -95,26 +105,29 @@ export default function CollectionsCarousel() {
         })}
       </div>
 
-      <button
-        type="button"
-        onClick={() => go(-1)}
-        aria-label="Previous collection"
-        className="btn-white-to-red absolute left-4 md:left-10 top-1/2 -translate-y-1/2 z-20 flex h-11 w-11 items-center justify-center rounded-full"
-      >
-        <svg className="h-5 w-5" fill="none" stroke="currentColor" strokeWidth="3" strokeLinecap="round" strokeLinejoin="round" viewBox="0 0 24 24">
-          <path d="M15 19l-7-7 7-7" />
-        </svg>
-      </button>
-      <button
-        type="button"
-        onClick={() => go(1)}
-        aria-label="Next collection"
-        className="btn-white-to-red absolute right-4 md:right-10 top-1/2 -translate-y-1/2 z-20 flex h-11 w-11 items-center justify-center rounded-full"
-      >
-        <svg className="h-5 w-5" fill="none" stroke="currentColor" strokeWidth="3" strokeLinecap="round" strokeLinejoin="round" viewBox="0 0 24 24">
-          <path d="M9 5l7 7-7 7" />
-        </svg>
-      </button>
+      {/* Arrows sit below the track on mobile and at the sides from md up */}
+      <div className="flex gap-6 mt-2 md:contents">
+        <button
+          type="button"
+          onClick={() => go(-1)}
+          aria-label="Previous collection"
+          className="btn-white-to-red md:absolute md:left-10 md:top-1/2 md:-translate-y-1/2 z-20 flex h-11 w-11 items-center justify-center rounded-full"
+        >
+          <svg className="h-5 w-5" fill="none" stroke="currentColor" strokeWidth="3" strokeLinecap="round" strokeLinejoin="round" viewBox="0 0 24 24">
+            <path d="M15 19l-7-7 7-7" />
+          </svg>
+        </button>
+        <button
+          type="button"
+          onClick={() => go(1)}
+          aria-label="Next collection"
+          className="btn-white-to-red md:absolute md:right-10 md:top-1/2 md:-translate-y-1/2 z-20 flex h-11 w-11 items-center justify-center rounded-full"
+        >
+          <svg className="h-5 w-5" fill="none" stroke="currentColor" strokeWidth="3" strokeLinecap="round" strokeLinejoin="round" viewBox="0 0 24 24">
+            <path d="M9 5l7 7-7 7" />
+          </svg>
+        </button>
+      </div>
     </div>
   );
 }

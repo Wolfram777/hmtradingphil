@@ -19,6 +19,27 @@ const navItems = [
 
 export default function Navbar() {
   const [isDark, setIsDark] = useState(true);
+  const [menuOpen, setMenuOpen] = useState(false);
+
+  useEffect(() => {
+    if (!menuOpen) return;
+    const root = document.documentElement;
+    const previousOverflow = root.style.overflow;
+    root.style.overflow = 'hidden';
+    const closeOnDesktop = () => {
+      if (window.innerWidth >= 1024) setMenuOpen(false);
+    };
+    const closeOnEscape = (e: KeyboardEvent) => {
+      if (e.key === 'Escape') setMenuOpen(false);
+    };
+    window.addEventListener('resize', closeOnDesktop);
+    window.addEventListener('keydown', closeOnEscape);
+    return () => {
+      root.style.overflow = previousOverflow;
+      window.removeEventListener('resize', closeOnDesktop);
+      window.removeEventListener('keydown', closeOnEscape);
+    };
+  }, [menuOpen]);
 
   useEffect(() => {
     const sections = Array.from(
@@ -53,10 +74,11 @@ export default function Navbar() {
     };
   }, []);
 
+  const light = isDark || menuOpen;
   const navStyle = {
-    '--nav-text': isDark ? '#ffffff' : BRAND_RED,
-    '--nav-hover-bg': isDark ? BRAND_RED : '#ffffff',
-    '--nav-hover-ring': isDark ? 'transparent' : BRAND_RED,
+    '--nav-text': light ? '#ffffff' : BRAND_RED,
+    '--nav-hover-bg': light ? BRAND_RED : '#ffffff',
+    '--nav-hover-ring': light ? 'transparent' : BRAND_RED,
   } as React.CSSProperties;
 
   return (
@@ -64,24 +86,49 @@ export default function Navbar() {
       className="fixed top-0 left-0 right-0 z-50 bg-transparent"
       style={navStyle}
     >
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        <div className="flex justify-between items-center h-20">
+      {/* Mobile menu overlay */}
+      <div
+        data-lenis-prevent
+        className={`lg:hidden fixed inset-0 flex flex-col items-center justify-center gap-2 transition-opacity duration-300 ${
+          menuOpen ? 'opacity-100' : 'opacity-0 pointer-events-none'
+        }`}
+        style={{ backgroundColor: BRAND_RED }}
+        aria-hidden={!menuOpen}
+      >
+        {navItems.map((item, index) => (
+          <Link
+            key={item.name}
+            href={item.href}
+            onClick={() => setMenuOpen(false)}
+            tabIndex={menuOpen ? 0 : -1}
+            className={`font-archivo-narrow font-semibold text-2xl sm:text-3xl tracking-wide text-white px-6 py-3 transition-[opacity,translate] duration-500 ${
+              menuOpen ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-4'
+            }`}
+            style={{ transitionDelay: menuOpen ? `${100 + index * 60}ms` : '0ms' }}
+          >
+            {item.name}
+          </Link>
+        ))}
+      </div>
+
+      <div className="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        <div className="flex justify-between items-center h-16 md:h-20">
           {/* Logo */}
-          <Link href="/" className="flex items-center flex-shrink-0">
+          <Link href="/" onClick={() => setMenuOpen(false)} className="flex items-center flex-shrink-0">
             <Image
               src="/assets/images/common/hmt_logo.png"
               alt="HMT Logo"
               width={120}
               height={48}
               priority
-              className={`h-12 w-auto object-contain transition-[filter] duration-300 ${
-                isDark ? 'brightness-0 invert' : ''
+              className={`h-10 md:h-12 w-auto object-contain transition-[filter] duration-300 ${
+                light ? 'brightness-0 invert' : ''
               }`}
             />
           </Link>
 
           {/* Navigation Links - Centered */}
-          <div className="hidden md:flex flex-1 justify-center space-x-6 px-8">
+          <div className="hidden lg:flex flex-1 justify-center space-x-6 px-8">
             {navItems.map((item) => (
               <Link
                 key={item.name}
@@ -94,17 +141,19 @@ export default function Navbar() {
           </div>
 
           {/* Spacer for balance */}
-          <div className="flex-shrink-0 w-[120px] hidden md:block"></div>
+          <div className="flex-shrink-0 w-[120px] hidden lg:block"></div>
 
           {/* Mobile menu button */}
-          <div className="md:hidden">
+          <div className="lg:hidden">
             <button
               type="button"
-              className="focus:outline-none text-[var(--nav-text)] transition-colors duration-300 hover:opacity-80"
-              aria-label="Toggle menu"
+              onClick={() => setMenuOpen((open) => !open)}
+              className="p-2 -mr-2 focus:outline-none text-[var(--nav-text)] transition-colors duration-300 hover:opacity-80"
+              aria-label={menuOpen ? 'Close menu' : 'Open menu'}
+              aria-expanded={menuOpen}
             >
               <svg
-                className="h-6 w-6"
+                className="h-7 w-7"
                 fill="none"
                 strokeLinecap="round"
                 strokeLinejoin="round"
@@ -112,7 +161,7 @@ export default function Navbar() {
                 viewBox="0 0 24 24"
                 stroke="currentColor"
               >
-                <path d="M4 6h16M4 12h16M4 18h16"></path>
+                {menuOpen ? <path d="M6 6l12 12M18 6L6 18" /> : <path d="M4 6h16M4 12h16M4 18h16" />}
               </svg>
             </button>
           </div>
