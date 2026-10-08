@@ -6,21 +6,19 @@ import { useEffect, useRef, useState } from 'react';
 const BRAND_RED = '#8b0c0b';
 const AUTOPLAY_MS = 5000;
 
-const collections = [
-  'balue',
-  'barcelona',
-  'batakan',
-  'cana',
-  'cirkulo',
-  'cocotero',
-  'combination',
-  'palm',
-  'pasingan',
-  'recycled wood',
-].map((file) => ({
-  name: file.replace(/\b\w/g, (c) => c.toUpperCase()),
-  src: encodeURI(`/assets/images/panel-collection/${file}.jpg`),
+const covers = [
+  { name: 'Batakan', file: 'COVER PHOTO FOR BATAKAN COLLECTION.jpg' },
+  { name: 'MOP Pinctada', file: 'COVER PHOTO FOR MOP PINCTADA COLLECTION.jpg' },
+  { name: 'Barcelona', file: 'COVER PHOTO FOR BARCELONA COLLECTION.jpg' },
+  { name: 'Pasingan', file: 'COVER PHOTO FOR PASINGAN COLLECTION.jpg' },
+  { name: 'Woven Mats', file: 'COVER PHOTO FOR WOVEN MATS.jpg' },
+].map((cover) => ({
+  name: cover.name,
+  src: encodeURI(`/assets/images/panel-collection/${cover.file}`),
 }));
+
+// The track needs more items than its 5 visible slots so the wrap-around happens off-screen.
+const collections = [...covers, ...covers];
 
 // Horizontal offsets are multiples of the square size so spacing scales with it.
 const SLOT_STYLES: Record<number, { x: number; rotate: number; scale: number }> = {
@@ -71,7 +69,7 @@ export default function CollectionsCarousel() {
 
           return (
             <figure
-              key={item.name}
+              key={index}
               className="absolute left-1/2 top-0 w-[var(--size)] -ml-[calc(var(--size)/2)] transition-[transform,opacity] duration-700 ease-out [transform-style:preserve-3d]"
               style={{
                 transform: `translateX(calc(var(--size) * ${slot.x * side})) rotateY(${slot.rotate * side}deg) scale(${slot.scale})`,

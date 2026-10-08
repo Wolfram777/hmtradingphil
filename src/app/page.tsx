@@ -117,12 +117,12 @@ export default function Home() {
         </div>
       </section>
 
-      {/* Collections Section */}
+      {/* Featured Collections Section */}
       <section className="relative md:h-[660px] w-full bg-white" data-section-id="collections">
         <div className="md:h-full flex flex-col items-center pt-16 pb-12 md:pb-8 overflow-hidden">
           <Reveal>
             <h2 className="font-adobe-aldine text-5xl md:text-6xl lg:text-7xl font-bold" style={{ color: '#8b0c0b' }}>
-              Collections
+              Featured Collections
             </h2>
           </Reveal>
           <Reveal delay={200} className="w-full flex-1 flex mt-10 md:mt-0">
@@ -328,8 +328,16 @@ export default function Home() {
         <div className="w-full px-4 md:px-8">
           <div className="grid grid-cols-1 md:grid-cols-3 gap-8 md:gap-12">
             {/* Column 1: Logo */}
-            <Reveal className="flex items-start justify-start">
+            <Reveal className="flex flex-col items-start gap-6">
               <img src="/assets/images/common/footer_logo.png" alt="HMT Footer Logo" className="h-20 w-auto" />
+              {/* Margins and width crop the source image down to just the three badges */}
+              <div className="relative w-64 aspect-[44/15] overflow-hidden rounded-lg bg-white shadow-[0_10px_24px_-6px_rgba(0,0,0,0.45)] ring-1 ring-white/40">
+                <img
+                  src={encodeURI('/assets/images/common/bir registration sealed badge.jpg')}
+                  alt="BIR Registration Seal Badge"
+                  className="max-w-none w-[155%] -ml-[27.3%] -mt-[28%]"
+                />
+              </div>
             </Reveal>
 
             {/* Column 2: Main Menu */}
