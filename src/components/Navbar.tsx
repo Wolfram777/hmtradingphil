@@ -54,7 +54,8 @@ export default function Navbar() {
               <Link
                 key={item.name}
                 href={item.href}
-                className="font-medium text-sm text-red-600 hover:text-red-700 transition-colors"
+                className="font-medium text-sm transition-colors hover:opacity-80"
+                style={{ color: '#8b0c0b' }}
               >
                 {item.name}
               </Link>
@@ -68,7 +69,8 @@ export default function Navbar() {
           <div className="md:hidden">
             <button
               type="button"
-              className="focus:outline-none text-red-600 hover:text-red-700 transition-colors"
+              className="focus:outline-none transition-colors hover:opacity-80"
+              style={{ color: '#8b0c0b' }}
               aria-label="Toggle menu"
             >
               <svg
