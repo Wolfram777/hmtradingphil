@@ -1,7 +1,19 @@
 'use client';
 
 import Link from 'next/link';
+import Image from 'next/image';
 import { useEffect, useState } from 'react';
+import CollectionsCarousel from '@/components/CollectionsCarousel';
+import Reveal from '@/components/Reveal';
+
+const galleryItems = [
+  { name: 'Manila Fame', file: 'manila fame.jpg' },
+  { name: 'Worldbex', file: 'worldbex.jpg' },
+  { name: 'Interior & Design Manila', file: 'interior design manila.jpg' },
+  { name: 'Hotel Show', file: 'hotel show.jpg' },
+  { name: 'Philippine School of Interior Design', file: 'philippines school of interior design.jpg' },
+  { name: 'Client Projects', file: 'client projects.jpg' },
+];
 
 export default function Home() {
   const [currentSlide, setCurrentSlide] = useState(0);
@@ -26,7 +38,7 @@ export default function Home() {
   return (
     <div className="flex flex-col flex-1">
       {/* Hero Section with Carousel */}
-      <section className="relative h-screen w-full">
+      <section className="relative h-screen w-full" data-section-id="hero">
         {/* Carousel Images */}
         {carouselImages.map((image, index) => (
           <div
@@ -43,19 +55,26 @@ export default function Home() {
 
         {/* Content Overlay */}
         <div className="relative h-full flex flex-col items-center justify-center text-center px-4">
-          <h1 className="text-4xl md:text-5xl lg:text-6xl font-bold text-white max-w-4xl mb-4 leading-tight">
-            Makers of exotic & exquisitely hand-crafted natural laminated panels
-          </h1>
-          <p className="text-2xl md:text-3xl text-white italic mb-8">
-            since 1990
-          </p>
-          <Link
-            href="#explore"
-            className="text-white font-semibold px-8 py-3 rounded-md text-lg transition-colors duration-200 hover:opacity-90"
-            style={{ backgroundColor: '#8b0c0b' }}
-          >
-            EXPLORE
-          </Link>
+          <Reveal>
+            <h1 className="font-charter text-5xl md:text-6xl lg:text-7xl font-bold text-white max-w-5xl mb-4 leading-tight">
+              Makers of exotic &<br />
+              exquisitely hand-crafted<br />
+              natural laminated panels
+            </h1>
+          </Reveal>
+          <Reveal delay={250}>
+            <p className="font-charter text-3xl md:text-5xl text-white italic mb-16">
+              since 1990
+            </p>
+          </Reveal>
+          <Reveal delay={500} className="flex">
+            <Link
+              href="#explore"
+              className="btn-red-to-white font-archivo-narrow font-semibold px-16 py-3 rounded-md text-lg animate-pulse-scale"
+            >
+              EXPLORE
+            </Link>
+          </Reveal>
         </div>
 
         {/* Carousel Indicators */}
@@ -74,16 +93,21 @@ export default function Home() {
       </section>
 
       {/* Collections Section */}
-      <section className="relative h-[660px] w-full bg-white">
-        <div className="h-full flex flex-col items-center pt-16">
-          <h2 className="text-5xl md:text-6xl lg:text-7xl font-bold" style={{ color: '#8b0c0b' }}>
-            Collections
-          </h2>
+      <section className="relative h-[660px] w-full bg-white" data-section-id="collections">
+        <div className="h-full flex flex-col items-center pt-16 pb-8 overflow-hidden">
+          <Reveal>
+            <h2 className="font-adobe-aldine text-5xl md:text-6xl lg:text-7xl font-bold" style={{ color: '#8b0c0b' }}>
+              Collections
+            </h2>
+          </Reveal>
+          <Reveal delay={200} className="w-full flex-1 flex">
+            <CollectionsCarousel />
+          </Reveal>
         </div>
       </section>
 
       {/* About Us Section */}
-      <section className="relative h-[660px] w-full">
+      <section className="relative h-[660px] w-full" data-section-id="about">
         {/* Background Image */}
         <div
           className="absolute inset-0 bg-cover bg-top bg-no-repeat"
@@ -92,26 +116,29 @@ export default function Home() {
 
         {/* Red Box Overlay (2/5ths width) */}
         <div className="relative h-full flex items-center">
-          <div className="w-full md:w-2/5 h-full flex flex-col justify-center px-8 md:px-16 py-12" style={{ backgroundColor: 'rgba(140, 11, 11, 0.85)' }}>
-            <h2 className="text-4xl md:text-5xl font-bold text-white mb-6">
+          <Reveal from="left" className="w-full md:w-2/5 h-full flex flex-col justify-center px-8 md:px-16 py-12" style={{ backgroundColor: 'rgba(140, 11, 11, 0.85)' }}>
+            <h2 className="font-charter text-5xl md:text-6xl lg:text-7xl font-bold text-white mb-6">
               About Us
             </h2>
-            <p className="text-white text-base md:text-lg leading-relaxed mb-8">
-              TIMBERMATE - HMT INDUSTRIES CORP. is formerly known as HM TRADING, which was founded in 1990 as a trader of raw materials and to support its mother company, Duru's Industries Corp.
+            <p className="font-archivo-narrow text-white text-lg md:text-xl lg:text-2xl leading-relaxed mb-8">
+              TIMBERMATE - HMT INDUSTRIES CORP.<br />
+              is formerly known as HM TRADING, which<br />
+              was founded in 1990 as a trader of raw<br />
+              materials and to support its mother<br />
+              company, Duru's Industries Corp.
             </p>
             <Link
               href="/about"
-              className="bg-white hover:bg-gray-100 font-semibold px-8 py-3 rounded-md text-base w-fit transition-colors duration-200"
-              style={{ color: '#8b0c0b' }}
+              className="btn-white-to-red font-archivo-narrow font-semibold px-12 py-3 rounded-md text-base w-fit"
             >
               READ MORE
             </Link>
-          </div>
+          </Reveal>
         </div>
       </section>
 
       {/* Upcoming Events Section */}
-      <section className="relative h-[660px] w-full bg-white">
+      <section className="relative h-[660px] w-full bg-white" data-section-id="events">
         {/* Background Image with Border */}
         <div className="absolute inset-8 border-[12px] border-white overflow-hidden">
           <div
@@ -122,18 +149,21 @@ export default function Home() {
           {/* Red Overlay */}
           <div className="absolute inset-0" style={{ backgroundColor: 'rgba(140, 11, 11, 0.85)' }}></div>
 
-          {/* Content - Right Side */}
+          {/* Content - Right Side with Left-Aligned Text */}
           <div className="relative h-full flex items-center justify-end px-8 md:px-16">
-            <div className="text-right max-w-xl">
+            <Reveal from="right" className="text-left max-w-xl">
               {/* Upcoming Events with Arrow Circle */}
-              <div className="flex items-center justify-end gap-4 mb-6">
-                <h2 className="text-5xl md:text-6xl lg:text-7xl font-bold text-white leading-tight">
-                  Upcoming<br />Events
-                </h2>
-                {/* Arrow Circle */}
-                <div className="flex-shrink-0 w-16 h-16 md:w-20 md:h-20 rounded-full border-4 border-white flex items-center justify-center">
+              <h2 className="font-adobe-aldine text-6xl md:text-7xl lg:text-8xl font-bold text-white leading-tight mb-6">
+                Upcoming<br />
+                Events
+                {/* Absolutely positioned svg keeps the circle free of line boxes, so its bottom edge sits on the text baseline */}
+                <Link
+                  href="/events"
+                  aria-label="See upcoming events"
+                  className="group relative inline-block align-baseline ml-[0.2em] size-[0.68em] rounded-full border-2 border-white transition-colors duration-300 hover:bg-white"
+                >
                   <svg
-                    className="w-8 h-8 md:w-10 md:h-10 text-white"
+                    className="absolute inset-0 m-auto size-1/2 text-white group-hover:text-[#8b0c0b] transition-colors duration-300"
                     fill="none"
                     strokeLinecap="round"
                     strokeLinejoin="round"
@@ -143,55 +173,57 @@ export default function Home() {
                   >
                     <path d="M9 5l7 7-7 7"></path>
                   </svg>
-                </div>
-              </div>
+                </Link>
+              </h2>
               {/* See What's New */}
               <Link
                 href="/events"
-                className="text-xl md:text-2xl text-white font-semibold underline underline-offset-4 decoration-2 hover:text-gray-200 transition-colors"
+                className="font-archivo-narrow text-xl md:text-2xl text-white font-semibold underline underline-offset-4 decoration-2 hover:text-gray-200 transition-colors"
               >
                 SEE WHAT'S NEW
               </Link>
-            </div>
+            </Reveal>
           </div>
         </div>
       </section>
 
       {/* Gallery Section */}
-      <section className="relative h-auto w-full bg-white pb-16">
+      <section className="relative h-auto w-full bg-white pb-16" data-section-id="gallery">
         <div className="h-full flex flex-col items-center pt-16 px-8">
-          <h2 className="text-5xl md:text-6xl lg:text-7xl font-bold mb-16" style={{ color: '#8b0c0b' }}>
-            Gallery
-          </h2>
+          <Reveal>
+            <h2 className="font-adobe-aldine text-5xl md:text-6xl lg:text-7xl font-bold mb-16" style={{ color: '#8b0c0b' }}>
+              Gallery
+            </h2>
+          </Reveal>
           
           {/* Gallery Grid - 2 rows, 3 columns */}
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 max-w-7xl w-full">
-            {[1, 2, 3, 4, 5, 6].map((item) => (
-              <div
-                key={item}
-                className="group relative aspect-[80/99] rounded-2xl overflow-hidden shadow-lg cursor-pointer transition-transform duration-300 hover:-translate-y-4"
-              >
+            {galleryItems.map((item, index) => (
+              <Reveal key={item.name} delay={(index % 3) * 150}>
                 <div
-                  className="absolute inset-0 bg-cover bg-center bg-no-repeat"
-                  style={{
-                    backgroundImage: `url('/assets/images/gallery/gallery${item}.jpg')`,
-                  }}
+                  className="group relative aspect-[80/99] rounded-2xl overflow-hidden shadow-lg cursor-pointer transition-transform duration-300 hover:-translate-y-4"
                 >
-                  {/* Placeholder background for missing images */}
-                  <div className="absolute inset-0 bg-gradient-to-br from-gray-200 to-gray-300 flex items-center justify-center">
-                    <span className="text-gray-500 text-4xl font-bold">
-                      {item}
-                    </span>
+                  <Image
+                    src={encodeURI(`/assets/images/gallery/${item.file}`)}
+                    alt={item.name}
+                    fill
+                    sizes="(min-width: 1024px) 33vw, (min-width: 768px) 50vw, 100vw"
+                    className="object-cover"
+                  />
+                  <div className="absolute inset-x-0 bottom-0 bg-gradient-to-t from-black/70 to-transparent px-6 pt-16 pb-6">
+                    <p className="font-archivo-narrow font-semibold text-white text-left text-3xl lg:text-4xl underline decoration-2 underline-offset-4 decoration-transparent group-hover:decoration-white transition-[text-decoration-color] duration-300">
+                      {item.name}
+                    </p>
                   </div>
                 </div>
-              </div>
+              </Reveal>
             ))}
           </div>
         </div>
       </section>
 
       {/* Showrooms Section */}
-      <section className="relative h-[660px] w-full">
+      <section className="relative h-[660px] w-full" data-section-id="showrooms">
         {/* Background Image */}
         <div
           className="absolute inset-0 bg-cover bg-center bg-no-repeat"
@@ -200,35 +232,35 @@ export default function Home() {
 
         {/* Red Box Overlay (2/5ths width) - Right Side */}
         <div className="relative h-full flex items-center justify-end">
-          <div className="w-full md:w-2/5 h-full flex flex-col justify-center px-8 md:px-16 py-12 text-right" style={{ backgroundColor: 'rgba(140, 11, 11, 0.85)' }}>
-            <h2 className="text-4xl md:text-5xl font-bold text-white mb-6">
+          <Reveal from="right" className="w-full md:w-2/5 h-full flex flex-col justify-center px-8 md:px-16 py-12 text-right" style={{ backgroundColor: 'rgba(140, 11, 11, 0.85)' }}>
+            <h2 className="font-charter text-5xl md:text-6xl lg:text-7xl font-bold text-white mb-6">
               Showrooms
             </h2>
-            <p className="text-white text-xl md:text-2xl mb-8 italic">
-              step into our collections
+            <p className="font-archivo-narrow text-white text-xl md:text-2xl lg:text-3xl mb-8">
+              Step into our collections today.
             </p>
             <Link
               href="/showrooms"
-              className="bg-white hover:bg-gray-100 font-semibold px-8 py-3 rounded-md text-base w-fit ml-auto transition-colors duration-200"
-              style={{ color: '#8b0c0b' }}
+              className="btn-white-to-red font-archivo-narrow font-semibold px-12 py-3 rounded-md text-base w-fit ml-auto"
             >
               EXPLORE MORE
             </Link>
-          </div>
+          </Reveal>
         </div>
       </section>
 
       {/* Shop Online Section */}
-      <section className="relative py-16 w-full bg-white">
+      <section className="relative py-24 md:py-32 w-full bg-white" data-section-id="shop">
         <div className="max-w-7xl mx-auto px-8">
           {/* Heading */}
-          <h2 className="text-4xl md:text-5xl font-bold text-center mb-2" style={{ color: '#8b0c0b' }}>
-            SHOP ONLINE
-          </h2>
-          <div className="w-48 h-1 mx-auto mb-12" style={{ backgroundColor: '#8b0c0b' }}></div>
+          <Reveal>
+            <h2 className="font-archivo-narrow text-4xl md:text-5xl font-bold text-center w-fit mx-auto pb-2 mb-16 border-b-2 border-[#8b0c0b]" style={{ color: '#8b0c0b' }}>
+              SHOP ONLINE
+            </h2>
+          </Reveal>
 
           {/* Icons Row */}
-          <div className="flex items-center justify-center gap-12 md:gap-32 flex-wrap pb-8">
+          <Reveal delay={200} className="flex items-center justify-center gap-12 md:gap-32 flex-wrap pb-8">
             <Link href="https://facebook.com" target="_blank" rel="noopener noreferrer" className="transition-transform duration-300 hover:scale-110">
               <img src="/assets/icons/facebook.png" alt="Facebook" className="w-16 h-16 md:w-20 md:h-20" />
             </Link>
@@ -244,23 +276,23 @@ export default function Home() {
             <Link href="https://carousell.ph" target="_blank" rel="noopener noreferrer" className="transition-transform duration-300 hover:scale-110">
               <img src="/assets/icons/carousell.png" alt="Carousell" className="w-16 h-16 md:w-20 md:h-20" />
             </Link>
-          </div>
+          </Reveal>
         </div>
       </section>
 
       {/* Footer */}
-      <footer className="w-full py-12" style={{ backgroundColor: '#8c0b0b' }}>
-        <div className="max-w-7xl mx-auto px-8">
+      <footer className="w-full py-12" style={{ backgroundColor: '#8c0b0b' }} data-section-id="footer">
+        <div className="w-full px-4 md:px-8">
           <div className="grid grid-cols-1 md:grid-cols-3 gap-8 md:gap-12">
             {/* Column 1: Logo */}
-            <div className="flex items-start justify-center md:justify-start">
+            <Reveal className="flex items-start justify-start">
               <img src="/assets/images/common/footer_logo.png" alt="HMT Footer Logo" className="h-20 w-auto" />
-            </div>
+            </Reveal>
 
             {/* Column 2: Main Menu */}
-            <div className="text-white">
-              <h3 className="font-bold text-lg mb-4">Main Menu</h3>
-              <ul className="space-y-2">
+            <Reveal delay={150} className="font-archivo-narrow text-white">
+              <h3 className="font-bold text-xl mb-4">Main Menu</h3>
+              <ul className="space-y-2 text-lg">
                 <li><Link href="/" className="hover:underline transition-colors">Home</Link></li>
                 <li><Link href="/panel-collection" className="hover:underline transition-colors">Panel Collection</Link></li>
                 <li><Link href="/other-products" className="hover:underline transition-colors">Other Productions</Link></li>
@@ -268,12 +300,12 @@ export default function Home() {
                 <li><Link href="/faqs" className="hover:underline transition-colors">FAQs</Link></li>
                 <li><Link href="/distributors" className="hover:underline transition-colors">Distributors</Link></li>
               </ul>
-            </div>
+            </Reveal>
 
             {/* Column 3: Contact Us */}
-            <div className="text-white">
-              <h3 className="font-bold text-lg mb-4">Contact Us</h3>
-              <div className="space-y-2 text-sm">
+            <Reveal delay={300} className="font-archivo-narrow text-white">
+              <h3 className="font-bold text-xl mb-4">Contact Us</h3>
+              <div className="space-y-2 text-base">
                 <p>(02) 8354-5535 | (02) 8967-1968</p>
                 <p>Fax No.: (02) 8352-2365</p>
                 <p>Email: hmt_mnl@pldtdsl.net</p>
@@ -288,15 +320,15 @@ export default function Home() {
                   <img src="/assets/icons/instagram-footer.png" alt="Instagram" className="w-8 h-8" />
                 </Link>
               </div>
-            </div>
+            </Reveal>
           </div>
         </div>
       </footer>
 
       {/* Copyright Section */}
-      <section className="w-full py-6 bg-white">
+      <section className="w-full py-6 bg-white" data-section-id="copyright">
         <div className="w-full px-4 md:px-8">
-          <div className="flex flex-col md:flex-row justify-between items-center gap-4">
+          <Reveal className="flex flex-col md:flex-row justify-between items-center gap-4">
             {/* Left: Certification Image */}
             <div>
               <img src="/assets/images/home/cert.png" alt="Certification" className="h-16 w-auto" />
@@ -308,7 +340,7 @@ export default function Home() {
               <p>All Rights Reserved.</p>
               <p>Copyright 2016-2026.</p>
             </div>
-          </div>
+          </Reveal>
         </div>
       </section>
     </div>

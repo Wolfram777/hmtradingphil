@@ -11,6 +11,11 @@
   --color-foreground: var(--foreground);
   --font-sans: var(--font-geist-sans);
   --font-mono: var(--font-geist-mono);
+  
+  /* Custom font families */
+  --font-family-archivo-narrow: var(--font-archivo-narrow), 'Archivo Narrow', sans-serif;
+  --font-family-charter: 'Charter', 'Charter Roman', 'Bitstream Charter', 'Crimson Pro', 'Georgia', serif;
+  --font-family-adobe-aldine: 'ITC Aldine', 'Aldine', 'EB Garamond', 'Georgia', 'Times New Roman', serif;
 }
 
 @media (prefers-color-scheme: dark) {
@@ -29,4 +34,98 @@ body {
   background: var(--background);
   color: var(--foreground);
   font-family: Arial, Helvetica, sans-serif;
+}
+
+/* Archivo Narrow - already imported via Next.js */
+.font-archivo-narrow {
+  font-family: var(--font-archivo-narrow), 'Archivo Narrow', sans-serif;
+}
+
+/* Charter Roman font with fallbacks - using Crimson Pro from Next.js */
+.font-charter {
+  font-family: var(--font-crimson-pro), 'Charter', 'Charter Roman', 'Bitstream Charter', 'Georgia', serif;
+}
+
+/* Adobe Aldine font with fallbacks - using EB Garamond from Next.js */
+.font-adobe-aldine {
+  font-family: var(--font-eb-garamond), 'ITC Aldine', 'Aldine', 'Georgia', 'Times New Roman', serif;
+}
+
+/* Scroll-triggered intro animations (see components/Reveal.tsx) */
+@keyframes reveal-up {
+  from { opacity: 0; transform: translateY(40px); }
+  to { opacity: 1; transform: none; }
+}
+
+@keyframes reveal-left {
+  from { opacity: 0; transform: translateX(-60px); }
+  to { opacity: 1; transform: none; }
+}
+
+@keyframes reveal-right {
+  from { opacity: 0; transform: translateX(60px); }
+  to { opacity: 1; transform: none; }
+}
+
+.reveal {
+  opacity: 0;
+}
+
+.reveal[data-shown='true'] {
+  animation-duration: 0.9s;
+  animation-timing-function: cubic-bezier(0.2, 0.7, 0.2, 1);
+  animation-fill-mode: both;
+}
+
+.reveal[data-reveal='up'][data-shown='true'] { animation-name: reveal-up; }
+.reveal[data-reveal='left'][data-shown='true'] { animation-name: reveal-left; }
+.reveal[data-reveal='right'][data-shown='true'] { animation-name: reveal-right; }
+
+@media (prefers-reduced-motion: reduce) {
+  .reveal { opacity: 1; }
+  .reveal[data-shown='true'] { animation: none; }
+}
+
+/* Pulse scale animation for buttons */
+@keyframes pulse-scale {
+  0%, 100% {
+    transform: scale(1);
+  }
+  50% {
+    transform: scale(1.05);
+  }
+}
+
+.animate-pulse-scale {
+  animation: pulse-scale 2s ease-in-out infinite;
+}
+
+/* Button hover color swap - white text on red background (no border) */
+.btn-red-to-white {
+  background-color: #8b0c0b !important;
+  color: white !important;
+  border: 0 !important;
+  outline: none !important;
+  transition: background-color 0.3s ease, color 0.3s ease;
+}
+
+.btn-red-to-white:hover {
+  background-color: white !important;
+  color: #8b0c0b !important;
+  border: 0 !important;
+  outline: none !important;
+}
+
+/* Button hover color swap - red text on white background */
+.btn-white-to-red {
+  background-color: white !important;
+  color: #8b0c0b !important;
+  border: 2px solid #8b0c0b;
+  transition: background-color 0.3s ease, color 0.3s ease, border-color 0.3s ease;
+}
+
+.btn-white-to-red:hover {
+  background-color: #8b0c0b !important;
+  color: white !important;
+  border: 2px solid white;
 }
