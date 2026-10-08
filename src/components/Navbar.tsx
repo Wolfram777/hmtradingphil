@@ -51,6 +51,27 @@ export default function Navbar() {
   const [openDropdown, setOpenDropdown] = useState<string | null>(null);
   const [mobileExpanded, setMobileExpanded] = useState<string | null>(null);
   const desktopNavRef = useRef<HTMLDivElement>(null);
+  const closeTimer = useRef<ReturnType<typeof setTimeout> | null>(null);
+  const lastPointerType = useRef<string>('');
+
+  const cancelClose = () => {
+    if (closeTimer.current) clearTimeout(closeTimer.current);
+    closeTimer.current = null;
+  };
+
+  const openOnHover = (name: string, e: React.PointerEvent) => {
+    if (e.pointerType !== 'mouse') return;
+    cancelClose();
+    setOpenDropdown(name);
+  };
+
+  const closeOnLeave = (e: React.PointerEvent) => {
+    if (e.pointerType !== 'mouse') return;
+    cancelClose();
+    closeTimer.current = setTimeout(() => setOpenDropdown(null), 150);
+  };
+
+  useEffect(() => cancelClose, []);
 
   useEffect(() => {
     if (!menuOpen) return;
@@ -259,11 +280,24 @@ export default function Navbar() {
 
               const open = openDropdown === item.name;
               return (
-                <div key={item.name} className="relative">
+                <div
+                  key={item.name}
+                  className="relative"
+                  onPointerEnter={(e) => openOnHover(item.name, e)}
+                  onPointerLeave={closeOnLeave}
+                >
                   <div className={containerClass(open)}>
                     <button
                       type="button"
-                      onClick={() => setOpenDropdown(open ? null : item.name)}
+                      onPointerDown={(e) => {
+                        lastPointerType.current = e.pointerType;
+                      }}
+                      onClick={() => {
+                        // A mouse already opened it on hover, so clicking shouldn't toggle it shut
+                        if (lastPointerType.current === 'mouse') setOpenDropdown(item.name);
+                        else setOpenDropdown(open ? null : item.name);
+                        lastPointerType.current = '';
+                      }}
                       aria-expanded={open}
                       aria-haspopup="true"
                       className={triggerClass}
