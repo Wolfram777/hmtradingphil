@@ -188,7 +188,7 @@ export default function Home() {
                   className="group relative inline-block align-baseline ml-[0.2em] size-[0.68em] rounded-full border-2 border-white transition-colors duration-300 hover:bg-white"
                 >
                   <svg
-                    className="absolute inset-0 m-auto size-1/2 text-white group-hover:text-[#8b0c0b] transition-colors duration-300"
+                    className="absolute inset-0 m-auto size-1/2 text-white group-hover:text-[#8b0c0b] transition-colors duration-300 animate-nudge-right"
                     fill="none"
                     strokeLinecap="round"
                     strokeLinejoin="round"
@@ -240,8 +240,11 @@ export default function Home() {
                     className="object-cover scale-[1.02]"
                   />
                   <div className="absolute inset-x-0 bottom-0 px-5 pb-5 md:px-6 md:pb-6">
-                    <p className="font-archivo-narrow font-semibold text-white text-left text-2xl md:text-3xl lg:text-4xl [text-shadow:0_2px_10px_rgba(0,0,0,0.85)] underline decoration-2 underline-offset-4 decoration-transparent group-hover:decoration-white transition-[text-decoration-color] duration-300">
-                      {item.name}
+                    <p className="font-archivo-narrow font-semibold text-white text-left text-2xl md:text-3xl lg:text-4xl [text-shadow:0_2px_10px_rgba(0,0,0,0.85)]">
+                      {/* Background-drawn line so it sweeps left to right across every wrapped line */}
+                      <span className="pb-1 bg-[linear-gradient(currentColor,currentColor)] bg-no-repeat bg-[position:0_100%] bg-[length:0%_2px] group-hover:bg-[length:100%_2px] transition-[background-size] duration-300 ease-out">
+                        {item.name}
+                      </span>
                     </p>
                   </div>
                 </div>

@@ -25,6 +25,17 @@
   }
 }
 
+@layer base {
+  a[href],
+  button:not(:disabled),
+  [role='button'],
+  label[for],
+  select,
+  summary {
+    cursor: pointer;
+  }
+}
+
 html {
   scroll-behavior: smooth;
   -webkit-overflow-scrolling: touch;
@@ -91,6 +102,20 @@ body {
 @keyframes dropdown-item-in {
   from { opacity: 0; transform: translateY(-8px); }
   to { opacity: 1; transform: none; }
+}
+
+/* Upcoming Events arrow nudging right */
+@keyframes nudge-right {
+  0%, 100% { transform: translateX(0); }
+  50% { transform: translateX(22%); }
+}
+
+.animate-nudge-right {
+  animation: nudge-right 1.4s ease-in-out infinite;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .animate-nudge-right { animation: none; }
 }
 
 /* Pulse scale animation for buttons */

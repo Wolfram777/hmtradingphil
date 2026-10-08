@@ -82,7 +82,7 @@ export default function CollectionsCarousel() {
                 type="button"
                 onClick={() => setActive(index)}
                 aria-label={`Show ${item.name}`}
-                className="relative block aspect-square w-full overflow-hidden rounded-md shadow-[0_24px_40px_-8px_rgba(0,0,0,0.55)] cursor-pointer"
+                className="relative block aspect-square w-full overflow-hidden rounded-md shadow-[0_24px_40px_-8px_rgba(0,0,0,0.55)] cursor-pointer transition-[scale] duration-300 ease-out hover:scale-105"
               >
                 <Image
                   src={item.src}
