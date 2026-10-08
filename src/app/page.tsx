@@ -201,17 +201,17 @@ export default function Home() {
             {galleryItems.map((item, index) => (
               <Reveal key={item.name} delay={(index % 3) * 150}>
                 <div
-                  className="group relative aspect-[80/99] rounded-2xl overflow-hidden shadow-lg cursor-pointer transition-transform duration-300 hover:-translate-y-4"
+                  className="group relative aspect-[80/99] rounded-2xl overflow-hidden bg-neutral-900 shadow-[0_24px_40px_-8px_rgba(0,0,0,0.55)] cursor-pointer transition-transform duration-300 hover:-translate-y-4"
                 >
                   <Image
                     src={encodeURI(`/assets/images/gallery/${item.file}`)}
                     alt={item.name}
                     fill
                     sizes="(min-width: 1024px) 33vw, (min-width: 768px) 50vw, 100vw"
-                    className="object-cover"
+                    className="object-cover scale-[1.02]"
                   />
-                  <div className="absolute inset-x-0 bottom-0 bg-gradient-to-t from-black/70 to-transparent px-6 pt-16 pb-6">
-                    <p className="font-archivo-narrow font-semibold text-white text-left text-3xl lg:text-4xl underline decoration-2 underline-offset-4 decoration-transparent group-hover:decoration-white transition-[text-decoration-color] duration-300">
+                  <div className="absolute inset-x-0 bottom-0 px-6 pb-6">
+                    <p className="font-archivo-narrow font-semibold text-white text-left text-3xl lg:text-4xl [text-shadow:0_2px_10px_rgba(0,0,0,0.85)] underline decoration-2 underline-offset-4 decoration-transparent group-hover:decoration-white transition-[text-decoration-color] duration-300">
                       {item.name}
                     </p>
                   </div>
