@@ -329,13 +329,13 @@ export default function Home() {
           <div className="grid grid-cols-1 md:grid-cols-3 gap-8 md:gap-12">
             {/* Column 1: Logo */}
             <Reveal className="flex flex-col items-start gap-6">
-              <img src="/assets/images/common/footer_logo.png" alt="HMT Footer Logo" className="h-20 w-auto" />
-              {/* Margins and width crop the source image down to just the three badges */}
-              <div className="relative w-64 aspect-[3/1] overflow-hidden rounded-lg bg-white shadow-[0_10px_24px_-6px_rgba(0,0,0,0.45)] ring-1 ring-white/40">
+              <img src="/assets/images/common/footer_logo.png" alt="HMT Footer Logo" className="w-64 h-auto" />
+              {/* Crops the 1396x565 source to its badge content (x 274–1110, y 180–426) so its edges line up with the logo above */}
+              <div className="relative w-64 aspect-[837/247] overflow-hidden">
                 <img
                   src={encodeURI('/assets/images/common/BIR Seal Badge.png')}
                   alt="BIR Registration Seal Badge"
-                  className="max-w-none w-[154%] -ml-[26.2%] -mt-[16.8%]"
+                  className="max-w-none w-[166.8%] -ml-[32.74%] -mt-[21.5%]"
                 />
               </div>
             </Reveal>
