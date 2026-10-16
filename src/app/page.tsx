@@ -307,19 +307,19 @@ export default function Home() {
 
           {/* Icons Row */}
           <Reveal delay={200} className="flex items-center justify-center gap-x-10 gap-y-8 sm:gap-12 md:gap-20 lg:gap-32 flex-wrap pb-8">
-            <Link href="https://facebook.com" target="_blank" rel="noopener noreferrer" className="transition-transform duration-300 hover:scale-110">
+            <Link href="https://www.facebook.com/hmtphilippinesofficial/" target="_blank" rel="noopener noreferrer" className="transition-transform duration-300 hover:scale-110">
               <img src="/assets/icons/facebook.png" alt="Facebook" className="w-16 h-16 md:w-20 md:h-20" />
             </Link>
-            <Link href="https://instagram.com" target="_blank" rel="noopener noreferrer" className="transition-transform duration-300 hover:scale-110">
+            <Link href="https://www.instagram.com/mliving_hmt/" target="_blank" rel="noopener noreferrer" className="transition-transform duration-300 hover:scale-110">
               <img src="/assets/icons/ig.png" alt="Instagram" className="w-16 h-16 md:w-20 md:h-20" />
             </Link>
-            <Link href="https://shopee.ph" target="_blank" rel="noopener noreferrer" className="transition-transform duration-300 hover:scale-110">
+            <Link href="https://shopee.ph/shop/244853799/" target="_blank" rel="noopener noreferrer" className="transition-transform duration-300 hover:scale-110">
               <img src="/assets/icons/shopee.png" alt="Shopee" className="w-16 h-16 md:w-20 md:h-20" />
             </Link>
-            <Link href="https://lazada.com.ph" target="_blank" rel="noopener noreferrer" className="transition-transform duration-300 hover:scale-110">
+            <Link href="https://pages.lazada.com.ph/wow/i/ph/store/shop-enter-fail-page-pc?path=index.htm&hideShopNavigate=false&sellerKey=hmt-industries-corp&hideHeadFoot=false&lang=en" target="_blank" rel="noopener noreferrer" className="transition-transform duration-300 hover:scale-110">
               <img src="/assets/icons/lazada.png" alt="Lazada" className="w-16 h-16 md:w-20 md:h-20" />
             </Link>
-            <Link href="https://carousell.ph" target="_blank" rel="noopener noreferrer" className="transition-transform duration-300 hover:scale-110">
+            <Link href="https://www.carousell.ph/u/timbermate-hmt/" target="_blank" rel="noopener noreferrer" className="transition-transform duration-300 hover:scale-110">
               <img src="/assets/icons/carousell.png" alt="Carousell" className="w-16 h-16 md:w-20 md:h-20" />
             </Link>
           </Reveal>
@@ -367,10 +367,10 @@ export default function Home() {
               
               {/* Social Icons */}
               <div className="flex gap-4 mt-6">
-                <Link href="https://facebook.com" target="_blank" rel="noopener noreferrer" className="transition-transform duration-300 hover:scale-110">
+                <Link href="https://www.facebook.com/hmtphilippinesofficial/" target="_blank" rel="noopener noreferrer" className="transition-transform duration-300 hover:scale-110">
                   <img src="/assets/icons/facebook-footer.png" alt="Facebook" className="w-8 h-8" />
                 </Link>
-                <Link href="https://instagram.com" target="_blank" rel="noopener noreferrer" className="transition-transform duration-300 hover:scale-110">
+                <Link href="https://www.instagram.com/mliving_hmt/" target="_blank" rel="noopener noreferrer" className="transition-transform duration-300 hover:scale-110">
                   <img src="/assets/icons/instagram-footer.png" alt="Instagram" className="w-8 h-8" />
                 </Link>
               </div>
