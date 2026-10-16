@@ -2,6 +2,7 @@
 
 import Link from 'next/link';
 import Image from 'next/image';
+import { usePathname } from 'next/navigation';
 import { useEffect, useRef, useState } from 'react';
 
 const BRAND_RED = '#8b0c0b';
@@ -46,7 +47,8 @@ const navItems: NavItem[] = [
 ];
 
 export default function Navbar() {
-  const [isDark, setIsDark] = useState(true);
+  const pathname = usePathname();
+  const [isDark, setIsDark] = useState(pathname === '/');
   const [menuOpen, setMenuOpen] = useState(false);
   const [openDropdown, setOpenDropdown] = useState<string | null>(null);
   const [mobileExpanded, setMobileExpanded] = useState<string | null>(null);
@@ -117,14 +119,20 @@ export default function Navbar() {
   }, [openDropdown]);
 
   useEffect(() => {
-    const sections = Array.from(
-      document.querySelectorAll<HTMLElement>('[data-section-id]')
-    );
+    setMenuOpen(false);
+    setMobileExpanded(null);
+    setOpenDropdown(null);
+  }, [pathname]);
+
+  useEffect(() => {
     const probeY = NAV_HEIGHT / 2; // vertical centre of the navbar
     let frame = 0;
 
     const update = () => {
       frame = 0;
+      const sections = Array.from(
+        document.querySelectorAll<HTMLElement>('[data-section-id]')
+      );
       for (const section of sections) {
         const { top, bottom } = section.getBoundingClientRect();
         if (top <= probeY && bottom > probeY) {
@@ -132,6 +140,7 @@ export default function Navbar() {
           return;
         }
       }
+      setIsDark(false);
     };
 
     const schedule = () => {
@@ -147,7 +156,7 @@ export default function Navbar() {
       window.removeEventListener('scroll', schedule);
       window.removeEventListener('resize', schedule);
     };
-  }, []);
+  }, [pathname]);
 
   const closeMobileMenu = () => {
     setMenuOpen(false);
