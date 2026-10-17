@@ -62,6 +62,7 @@ export default function CollectionSidebar({ title, imageFolder, collections }: C
 
   return (
     <section
+      id="collections"
       data-section-id="collections"
       className="w-full bg-white flex flex-col md:flex-row min-h-[50svh]"
     >

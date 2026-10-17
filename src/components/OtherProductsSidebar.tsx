@@ -2,6 +2,7 @@
 
 import Image from 'next/image';
 import { useEffect, useMemo, useRef, useState } from 'react';
+import CollectionModal, { type CollectionGallery } from '@/components/CollectionModal';
 import ProductPreviewModal, { type ProductPreview } from '@/components/ProductPreviewModal';
 import Reveal from '@/components/Reveal';
 import type { OtherProduct, OtherProductCategory } from '@/lib/otherProducts';
@@ -108,6 +109,7 @@ export default function OtherProductsSidebar({
   const [expanded, setExpanded] = useState(initialCategory || firstSlug);
   const [activeProduct, setActiveProduct] = useState('');
   const [preview, setPreview] = useState<ProductPreview | null>(null);
+  const [gallery, setGallery] = useState<CollectionGallery | null>(null);
   const sidebarRef = useRef<HTMLElement>(null);
   const scrollRef = useRef<HTMLDivElement>(null);
 
@@ -164,8 +166,19 @@ export default function OtherProductsSidebar({
   const selectProduct = (product: OtherProduct, categorySlug: string) => {
     setExpanded(categorySlug);
     setActiveProduct(product.id);
-    setPreview(product);
     document.getElementById(product.id)?.scrollIntoView({ behavior: 'smooth', block: 'center' });
+
+    if (product.gallery) {
+      setPreview(null);
+      setGallery({
+        name: product.gallery.name,
+        images: product.gallery.images,
+      });
+      return;
+    }
+
+    setGallery(null);
+    setPreview(product);
   };
 
   return (
@@ -325,6 +338,7 @@ export default function OtherProductsSidebar({
       </div>
 
       <ProductPreviewModal product={preview} onClose={() => setPreview(null)} />
+      <CollectionModal gallery={gallery} onClose={() => setGallery(null)} />
     </section>
   );
 }

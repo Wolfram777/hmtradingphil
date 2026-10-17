@@ -2,6 +2,7 @@ import fs from 'fs';
 import path from 'path';
 import CollectionSidebar from '@/components/CollectionSidebar';
 import Reveal from '@/components/Reveal';
+import ScrollHintButton from '@/components/ScrollHintButton';
 import { toGalleryImages, versionedImageUrl } from '@/lib/collectionGallery';
 
 export const metadata = { title: 'Woven Mattings | Timbermate-HMT Industries Corp.' };
@@ -69,6 +70,7 @@ export default function WovenMattingsPage() {
             </h1>
           </Reveal>
         </div>
+        <ScrollHintButton targetId="collections" />
       </section>
       <CollectionSidebar
         title="Woven Mattings"

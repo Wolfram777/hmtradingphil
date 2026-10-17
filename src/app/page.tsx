@@ -5,6 +5,7 @@ import Image from 'next/image';
 import { useEffect, useRef, useState } from 'react';
 import CollectionsCarousel from '@/components/CollectionsCarousel';
 import Reveal from '@/components/Reveal';
+import ScrollHintButton from '@/components/ScrollHintButton';
 
 const galleryItems = [
   { name: 'Manila Fame', file: 'manila fame.jpg' },
@@ -17,8 +18,6 @@ const galleryItems = [
 
 export default function Home() {
   const [currentSlide, setCurrentSlide] = useState(0);
-  const [scrollHintVisible, setScrollHintVisible] = useState(true);
-  
   const carouselImages = [
     '/assets/images/home/main1.jpg',
     '/assets/images/home/main3.jpg',
@@ -35,16 +34,6 @@ export default function Home() {
 
     return () => clearInterval(timer);
   }, [carouselImages.length]);
-
-  useEffect(() => {
-    const onScroll = () => {
-      setScrollHintVisible(window.scrollY <= 8);
-    };
-
-    onScroll();
-    window.addEventListener('scroll', onScroll, { passive: true });
-    return () => window.removeEventListener('scroll', onScroll);
-  }, []);
 
   const galleryRef = useRef<HTMLDivElement>(null);
   const [galleryIndex, setGalleryIndex] = useState(0);
@@ -127,33 +116,7 @@ export default function Home() {
           ))}
         </div>
 
-        <button
-          type="button"
-          onClick={() => {
-            document.getElementById('explore')?.scrollIntoView({ behavior: 'smooth' });
-          }}
-          aria-label="Scroll down"
-          aria-hidden={!scrollHintVisible}
-          tabIndex={scrollHintVisible ? 0 : -1}
-          className={`absolute bottom-20 md:bottom-10 left-1/2 z-20 -translate-x-1/2 transition-opacity duration-500 ease-out ${
-            scrollHintVisible ? 'opacity-100' : 'opacity-0 pointer-events-none'
-          }`}
-        >
-          <span className="flex h-11 w-11 items-center justify-center rounded-full bg-[#8b0c0b] text-white shadow-[0_8px_22px_rgba(139,12,11,0.45)] animate-scroll-hint-bob">
-            <svg
-              className="h-5 w-5"
-              fill="none"
-              stroke="currentColor"
-              strokeWidth="2.5"
-              strokeLinecap="round"
-              strokeLinejoin="round"
-              viewBox="0 0 24 24"
-              aria-hidden
-            >
-              <path d="M6 9l6 6 6-6" />
-            </svg>
-          </span>
-        </button>
+        <ScrollHintButton targetId="explore" className="bottom-20 md:bottom-10" />
       </section>
 
       {/* Featured Collections Section */}
