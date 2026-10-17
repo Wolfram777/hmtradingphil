@@ -1,3 +1,5 @@
+import CollectionSidebar from '@/components/CollectionSidebar';
+
 export const metadata = { title: 'Natural Laminated Panels | Timbermate-HMT Industries Corp.' };
 
 export default function NaturalLaminatedPanelsPage() {
@@ -16,17 +18,7 @@ export default function NaturalLaminatedPanelsPage() {
           </h1>
         </div>
       </section>
-      <section
-        data-section-id="coming-soon"
-        className="w-full bg-white flex flex-col items-center justify-center px-6 py-24 text-center"
-      >
-        <h2 className="font-adobe-aldine text-4xl md:text-5xl font-bold mb-4" style={{ color: '#8b0c0b' }}>
-          Coming Soon
-        </h2>
-        <p className="font-archivo-narrow text-lg md:text-xl max-w-xl" style={{ color: '#8b0c0b' }}>
-          We&apos;re working on this page. Please check back soon.
-        </p>
-      </section>
+      <CollectionSidebar />
     </div>
   );
 }
