@@ -1,7 +1,7 @@
 'use client';
 
 import Link from 'next/link';
-import Image from 'next/image';
+import LoadingImage, { LoadingImg } from '@/components/LoadingImage';
 import { useEffect, useRef, useState } from 'react';
 import CollectionsCarousel from '@/components/CollectionsCarousel';
 import Reveal from '@/components/Reveal';
@@ -234,7 +234,7 @@ export default function Home() {
                 <div
                   className="group relative aspect-[80/99] rounded-2xl overflow-hidden bg-neutral-900 shadow-[0_24px_40px_-8px_rgba(0,0,0,0.55)] cursor-pointer transition-transform duration-300 hover:-translate-y-4"
                 >
-                  <Image
+                  <LoadingImage
                     src={encodeURI(`/assets/images/gallery/${item.file}`)}
                     alt={item.name}
                     fill
@@ -310,19 +310,19 @@ export default function Home() {
           {/* Icons Row */}
           <Reveal delay={200} className="flex items-center justify-center gap-x-10 gap-y-8 sm:gap-12 md:gap-20 lg:gap-32 flex-wrap pb-8">
             <Link href="https://www.facebook.com/hmtphilippinesofficial/" target="_blank" rel="noopener noreferrer" className="transition-transform duration-300 hover:scale-110">
-              <img src="/assets/icons/facebook.png" alt="Facebook" className="w-16 h-16 md:w-20 md:h-20" />
+              <LoadingImg src="/assets/icons/facebook.png" alt="Facebook" className="w-16 h-16 md:w-20 md:h-20" />
             </Link>
             <Link href="https://www.instagram.com/mliving_hmt/" target="_blank" rel="noopener noreferrer" className="transition-transform duration-300 hover:scale-110">
-              <img src="/assets/icons/ig.png" alt="Instagram" className="w-16 h-16 md:w-20 md:h-20" />
+              <LoadingImg src="/assets/icons/ig.png" alt="Instagram" className="w-16 h-16 md:w-20 md:h-20" />
             </Link>
             <Link href="https://shopee.ph/shop/244853799/" target="_blank" rel="noopener noreferrer" className="transition-transform duration-300 hover:scale-110">
-              <img src="/assets/icons/shopee.png" alt="Shopee" className="w-16 h-16 md:w-20 md:h-20" />
+              <LoadingImg src="/assets/icons/shopee.png" alt="Shopee" className="w-16 h-16 md:w-20 md:h-20" />
             </Link>
             <Link href="https://pages.lazada.com.ph/wow/i/ph/store/shop-enter-fail-page-pc?path=index.htm&hideShopNavigate=false&sellerKey=hmt-industries-corp&hideHeadFoot=false&lang=en" target="_blank" rel="noopener noreferrer" className="transition-transform duration-300 hover:scale-110">
-              <img src="/assets/icons/lazada.png" alt="Lazada" className="w-16 h-16 md:w-20 md:h-20" />
+              <LoadingImg src="/assets/icons/lazada.png" alt="Lazada" className="w-16 h-16 md:w-20 md:h-20" />
             </Link>
             <Link href="https://www.carousell.ph/u/timbermate-hmt/" target="_blank" rel="noopener noreferrer" className="transition-transform duration-300 hover:scale-110">
-              <img src="/assets/icons/carousell.png" alt="Carousell" className="w-16 h-16 md:w-20 md:h-20" />
+              <LoadingImg src="/assets/icons/carousell.png" alt="Carousell" className="w-16 h-16 md:w-20 md:h-20" />
             </Link>
           </Reveal>
         </div>
@@ -334,13 +334,20 @@ export default function Home() {
           <div className="grid grid-cols-1 md:grid-cols-3 gap-8 md:gap-12">
             {/* Column 1: Logo */}
             <Reveal className="flex flex-col items-start gap-6">
-              <img src="/assets/images/common/footer_logo.png" alt="HMT Footer Logo" className="w-64 h-auto" />
+              <LoadingImg
+                src="/assets/images/common/footer_logo.png"
+                alt="HMT Footer Logo"
+                className="w-64 h-auto"
+                loaderClassName="bg-transparent"
+              />
               {/* Crops the 1396x565 source to its badge content (x 274–1110, y 180–426) so its edges line up with the logo above */}
               <div className="relative w-64 aspect-[837/247] overflow-hidden">
-                <img
+                <LoadingImg
                   src={encodeURI('/assets/images/common/BIR Seal Badge.png')}
                   alt="BIR Registration Seal Badge"
                   className="max-w-none w-[166.8%] -ml-[32.74%] -mt-[21.5%]"
+                  loaderClassName="bg-transparent"
+                  wrapperClassName="relative block"
                 />
               </div>
             </Reveal>
@@ -370,10 +377,10 @@ export default function Home() {
               {/* Social Icons */}
               <div className="flex gap-4 mt-6">
                 <Link href="https://www.facebook.com/hmtphilippinesofficial/" target="_blank" rel="noopener noreferrer" className="transition-transform duration-300 hover:scale-110">
-                  <img src="/assets/icons/facebook-footer.png" alt="Facebook" className="w-8 h-8" />
+                  <LoadingImg src="/assets/icons/facebook-footer.png" alt="Facebook" className="w-8 h-8" loaderClassName="bg-transparent" />
                 </Link>
                 <Link href="https://www.instagram.com/mliving_hmt/" target="_blank" rel="noopener noreferrer" className="transition-transform duration-300 hover:scale-110">
-                  <img src="/assets/icons/instagram-footer.png" alt="Instagram" className="w-8 h-8" />
+                  <LoadingImg src="/assets/icons/instagram-footer.png" alt="Instagram" className="w-8 h-8" loaderClassName="bg-transparent" />
                 </Link>
               </div>
             </Reveal>
@@ -387,7 +394,7 @@ export default function Home() {
           <Reveal className="flex flex-col md:flex-row justify-between items-center gap-4">
             {/* Left: Certification Image */}
             <div>
-              <img src="/assets/images/home/cert.png" alt="Certification" className="h-16 w-auto" />
+              <LoadingImg src="/assets/images/home/cert.png" alt="Certification" className="h-16 w-auto" />
             </div>
 
             {/* Right: Copyright Text */}

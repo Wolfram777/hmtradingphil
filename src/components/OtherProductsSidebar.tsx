@@ -1,6 +1,6 @@
 'use client';
 
-import Image from 'next/image';
+import LoadingImage from '@/components/LoadingImage';
 import { useEffect, useMemo, useRef, useState } from 'react';
 import CollectionModal, { type CollectionGallery } from '@/components/CollectionModal';
 import ProductPreviewModal, { type ProductPreview } from '@/components/ProductPreviewModal';
@@ -320,7 +320,7 @@ export default function OtherProductsSidebar({
                     activeProduct === product.id ? 'ring-2 ring-[#8b0c0b] ring-offset-2' : ''
                   }`}
                 >
-                  <Image
+                  <LoadingImage
                     src={product.src}
                     alt={product.name}
                     fill

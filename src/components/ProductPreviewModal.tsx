@@ -1,6 +1,6 @@
 'use client';
 
-import Image from 'next/image';
+import LoadingImage from '@/components/LoadingImage';
 import { useEffect, useRef, useState } from 'react';
 
 export type ProductPreview = {
@@ -106,7 +106,7 @@ export default function ProductPreviewModal({ product, onClose }: ProductPreview
         </button>
 
         <div className="relative w-full aspect-square bg-neutral-100">
-          <Image
+          <LoadingImage
             src={displayed.src}
             alt={displayed.name}
             fill

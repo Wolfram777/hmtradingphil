@@ -176,6 +176,28 @@ body {
   .animate-nudge-right { animation: none; }
 }
 
+/* Image loading spinner */
+@keyframes image-loader-spin {
+  to { transform: rotate(360deg); }
+}
+
+.image-loader {
+  width: 1.75rem;
+  height: 1.75rem;
+  border-radius: 9999px;
+  border: 2.5px solid rgba(139, 12, 11, 0.18);
+  border-top-color: #8b0c0b;
+  animation: image-loader-spin 0.7s linear infinite;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .image-loader {
+    animation: none;
+    border-top-color: rgba(139, 12, 11, 0.18);
+    opacity: 0.7;
+  }
+}
+
 /* Homepage scroll hint */
 @keyframes scroll-hint-bob {
   0%, 100% { transform: translateY(0); }

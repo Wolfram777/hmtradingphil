@@ -1,6 +1,6 @@
 'use client';
 
-import Image from 'next/image';
+import LoadingImage from '@/components/LoadingImage';
 import { useEffect, useRef, useState, type TransitionEvent } from 'react';
 import type { GalleryImage } from '@/lib/collectionGallery';
 
@@ -219,7 +219,7 @@ export default function CollectionModal({ gallery, onClose }: CollectionModalPro
 
         {displayed.coverSrc && (
           <div className="relative w-full aspect-[21/8.1] md:aspect-[2.667/1] bg-neutral-200">
-            <Image
+            <LoadingImage
               src={displayed.coverSrc}
               alt={`${displayed.name} cover`}
               fill
@@ -284,7 +284,7 @@ export default function CollectionModal({ gallery, onClose }: CollectionModalPro
                       {group.map((image, i) => (
                         <figure key={`${pageIndex}-${i}-${image.src}`} className="min-w-0">
                           <div className="relative aspect-square w-full overflow-hidden rounded-lg bg-neutral-100">
-                            <Image
+                            <LoadingImage
                               src={image.src}
                               alt={image.label}
                               fill

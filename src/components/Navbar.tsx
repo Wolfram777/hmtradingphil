@@ -1,7 +1,7 @@
 'use client';
 
 import Link from 'next/link';
-import Image from 'next/image';
+import LoadingImage from '@/components/LoadingImage';
 import { usePathname } from 'next/navigation';
 import { useEffect, useRef, useState } from 'react';
 
@@ -279,12 +279,13 @@ export default function Navbar() {
         <div className="flex justify-between items-center h-16 md:h-20">
           {/* Logo */}
           <Link href="/" onClick={closeMobileMenu} className="flex items-center flex-shrink-0">
-            <Image
+            <LoadingImage
               src="/assets/images/common/hmt_logo.png"
               alt="HMT Logo"
               width={120}
               height={48}
               priority
+              loaderClassName="bg-transparent"
               className={`h-10 md:h-12 w-auto object-contain transition-[filter] duration-300 ${
                 light ? 'brightness-0 invert' : ''
               }`}

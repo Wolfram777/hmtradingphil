@@ -1,6 +1,6 @@
 'use client';
 
-import Image from 'next/image';
+import LoadingImage from '@/components/LoadingImage';
 import { useRouter } from 'next/navigation';
 import { useEffect, useRef, useState } from 'react';
 
@@ -143,7 +143,7 @@ export default function CollectionsCarousel() {
                 aria-label={offset === 0 ? `Open ${item.name}` : `Show ${item.name}`}
                 className="relative block aspect-square w-full overflow-hidden rounded-md shadow-[0_24px_40px_-8px_rgba(0,0,0,0.55)] cursor-pointer transition-[scale] duration-300 ease-out hover:scale-105"
               >
-                <Image
+                <LoadingImage
                   src={item.src}
                   alt={item.name}
                   fill

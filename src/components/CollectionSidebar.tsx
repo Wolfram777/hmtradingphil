@@ -1,6 +1,6 @@
 'use client';
 
-import Image from 'next/image';
+import LoadingImage from '@/components/LoadingImage';
 import { useEffect, useRef, useState } from 'react';
 import CollectionModal, { type CollectionGallery } from '@/components/CollectionModal';
 import Reveal from '@/components/Reveal';
@@ -152,7 +152,7 @@ export default function CollectionSidebar({ title, imageFolder, collections }: C
                 onClick={() => openCard(item)}
                 className="group relative aspect-[80/99] w-full rounded-2xl overflow-hidden bg-neutral-900 shadow-[0_10px_24px_-6px_rgba(0,0,0,0.22)] text-left"
               >
-                <Image
+                <LoadingImage
                   src={item.src ?? encodeURI(`/assets/images/${imageFolder}/${item.file}`)}
                   alt={item.name}
                   fill
