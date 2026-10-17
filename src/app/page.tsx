@@ -17,6 +17,7 @@ const galleryItems = [
 
 export default function Home() {
   const [currentSlide, setCurrentSlide] = useState(0);
+  const [scrollHintVisible, setScrollHintVisible] = useState(true);
   
   const carouselImages = [
     '/assets/images/home/main1.jpg',
@@ -34,6 +35,16 @@ export default function Home() {
 
     return () => clearInterval(timer);
   }, [carouselImages.length]);
+
+  useEffect(() => {
+    const onScroll = () => {
+      setScrollHintVisible(window.scrollY <= 8);
+    };
+
+    onScroll();
+    window.addEventListener('scroll', onScroll, { passive: true });
+    return () => window.removeEventListener('scroll', onScroll);
+  }, []);
 
   const galleryRef = useRef<HTMLDivElement>(null);
   const [galleryIndex, setGalleryIndex] = useState(0);
@@ -115,10 +126,38 @@ export default function Home() {
             />
           ))}
         </div>
+
+        <button
+          type="button"
+          onClick={() => {
+            document.getElementById('explore')?.scrollIntoView({ behavior: 'smooth' });
+          }}
+          aria-label="Scroll down"
+          aria-hidden={!scrollHintVisible}
+          tabIndex={scrollHintVisible ? 0 : -1}
+          className={`absolute bottom-20 md:bottom-10 left-1/2 z-20 -translate-x-1/2 transition-opacity duration-500 ease-out ${
+            scrollHintVisible ? 'opacity-100' : 'opacity-0 pointer-events-none'
+          }`}
+        >
+          <span className="flex h-11 w-11 items-center justify-center rounded-full bg-[#8b0c0b] text-white shadow-[0_8px_22px_rgba(139,12,11,0.45)] animate-scroll-hint-bob">
+            <svg
+              className="h-5 w-5"
+              fill="none"
+              stroke="currentColor"
+              strokeWidth="2.5"
+              strokeLinecap="round"
+              strokeLinejoin="round"
+              viewBox="0 0 24 24"
+              aria-hidden
+            >
+              <path d="M6 9l6 6 6-6" />
+            </svg>
+          </span>
+        </button>
       </section>
 
       {/* Featured Collections Section */}
-      <section className="relative md:h-[660px] w-full bg-white" data-section-id="collections">
+      <section id="explore" className="relative md:h-[660px] w-full bg-white" data-section-id="collections">
         <div className="md:h-full flex flex-col items-center pt-16 pb-12 md:pb-8 overflow-hidden">
           <Reveal>
             <h2 className="font-adobe-aldine text-5xl md:text-6xl lg:text-7xl font-bold" style={{ color: '#8b0c0b' }}>

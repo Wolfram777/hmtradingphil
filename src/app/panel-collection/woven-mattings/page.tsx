@@ -1,6 +1,7 @@
 import fs from 'fs';
 import path from 'path';
 import CollectionSidebar from '@/components/CollectionSidebar';
+import Reveal from '@/components/Reveal';
 import { toGalleryImages, versionedImageUrl } from '@/lib/collectionGallery';
 
 export const metadata = { title: 'Woven Mattings | Timbermate-HMT Industries Corp.' };
@@ -62,9 +63,11 @@ export default function WovenMattingsPage() {
           <div className="absolute inset-0 bg-black/40" />
         </div>
         <div className="relative h-full flex flex-col items-center justify-center text-center px-6">
-          <h1 className="font-adobe-aldine text-5xl md:text-6xl lg:text-7xl font-bold text-white">
-            Woven Mattings
-          </h1>
+          <Reveal>
+            <h1 className="font-adobe-aldine text-5xl md:text-6xl lg:text-7xl font-bold text-white">
+              Woven Mattings
+            </h1>
+          </Reveal>
         </div>
       </section>
       <CollectionSidebar

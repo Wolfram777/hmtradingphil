@@ -24,14 +24,15 @@ const withChildren = (base: string, names: string[]) =>
 const navItems: NavItem[] = [
   {
     name: 'PANEL COLLECTION',
-    href: '/panel-collection',
+    href: '/panel-collection/natural-laminated-panels',
     children: withChildren('/panel-collection', ['NATURAL LAMINATED PANELS', 'WOVEN MATTINGS']),
   },
   {
     name: 'OTHER PRODUCTS',
     href: '/other-products',
     children: withChildren('/other-products', [
-      'ADHESIVES CHEMICALS',
+      'ADHESIVES',
+      'CHEMICALS',
       'DESSICANT',
       'ELECTRICAL FITTINGS',
       'FABRICS',
@@ -54,7 +55,6 @@ export default function Navbar() {
   const [mobileExpanded, setMobileExpanded] = useState<string | null>(null);
   const desktopNavRef = useRef<HTMLDivElement>(null);
   const closeTimer = useRef<ReturnType<typeof setTimeout> | null>(null);
-  const lastPointerType = useRef<string>('');
 
   const cancelClose = () => {
     if (closeTimer.current) clearTimeout(closeTimer.current);
@@ -222,16 +222,33 @@ export default function Navbar() {
 
             return (
               <div key={item.name} className="flex flex-col items-center">
-                <button
-                  type="button"
-                  onClick={() => setMobileExpanded(expanded ? null : item.name)}
-                  tabIndex={menuOpen ? 0 : -1}
-                  aria-expanded={expanded}
-                  className={itemClass}
-                  style={itemStyle}
-                >
-                  {item.name}
-                </button>
+                <div className={`${itemClass} gap-3`} style={itemStyle}>
+                  <Link
+                    href={item.href}
+                    onClick={closeMobileMenu}
+                    tabIndex={menuOpen ? 0 : -1}
+                  >
+                    {item.name}
+                  </Link>
+                  <button
+                    type="button"
+                    onClick={() => setMobileExpanded(expanded ? null : item.name)}
+                    tabIndex={menuOpen ? 0 : -1}
+                    aria-expanded={expanded}
+                    aria-label={`${expanded ? 'Hide' : 'Show'} ${item.name} submenu`}
+                    className="p-1"
+                  >
+                    <svg
+                      className={`h-5 w-5 transition-transform duration-200 ${expanded ? 'rotate-180' : ''}`}
+                      fill="none"
+                      stroke="currentColor"
+                      strokeWidth="2.5"
+                      viewBox="0 0 24 24"
+                    >
+                      <path strokeLinecap="round" strokeLinejoin="round" d="M6 9l6 6 6-6" />
+                    </svg>
+                  </button>
+                </div>
                 <div
                   className={`grid transition-[grid-template-rows,opacity] duration-300 ease-out ${
                     expanded ? 'grid-rows-[1fr] opacity-100' : 'grid-rows-[0fr] opacity-0'
@@ -296,23 +313,15 @@ export default function Navbar() {
                   onPointerLeave={closeOnLeave}
                 >
                   <div className={containerClass(open)}>
-                    <button
-                      type="button"
-                      onPointerDown={(e) => {
-                        lastPointerType.current = e.pointerType;
-                      }}
-                      onClick={() => {
-                        // A mouse already opened it on hover, so clicking shouldn't toggle it shut
-                        if (lastPointerType.current === 'mouse') setOpenDropdown(item.name);
-                        else setOpenDropdown(open ? null : item.name);
-                        lastPointerType.current = '';
-                      }}
+                    <Link
+                      href={item.href}
+                      onClick={() => setOpenDropdown(null)}
                       aria-expanded={open}
                       aria-haspopup="true"
                       className={triggerClass}
                     >
                       <span className={underline(open)}>{item.name}</span>
-                    </button>
+                    </Link>
                   </div>
 
                   <div

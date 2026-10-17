@@ -1,7 +1,14 @@
-import ComingSoon from '@/components/ComingSoon';
+import OtherProductsSidebar from '@/components/OtherProductsSidebar';
+import { getOtherProductCategories } from '@/lib/otherProducts';
 
 export const metadata = { title: 'Electrical Fittings | Timbermate-HMT Industries Corp.' };
 
 export default function ElectricalFittingsPage() {
-  return <ComingSoon title="Electrical Fittings" />;
+  const categories = getOtherProductCategories();
+
+  return (
+    <div className="flex flex-col flex-1">
+      <OtherProductsSidebar categories={categories} initialCategory="electrical-fittings" />
+    </div>
+  );
 }

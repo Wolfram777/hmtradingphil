@@ -1,7 +1,5 @@
-import ComingSoon from '@/components/ComingSoon';
-
-export const metadata = { title: 'Adhesives Chemicals | Timbermate-HMT Industries Corp.' };
+import { redirect } from 'next/navigation';
 
 export default function AdhesivesChemicalsPage() {
-  return <ComingSoon title="Adhesives Chemicals" />;
+  redirect('/other-products/adhesives');
 }
