@@ -46,6 +46,21 @@ export default function CollectionSidebar({ title, imageFolder, collections }: C
     return () => sidebar.removeEventListener('wheel', onWheel);
   }, []);
 
+  useEffect(() => {
+    const hash = window.location.hash.replace(/^#/, '');
+    if (!hash) return;
+
+    const match = collections.find((item) => slug(item.name) === hash);
+    if (!match) return;
+
+    setActive(match.name);
+    const timer = window.setTimeout(() => {
+      document.getElementById(hash)?.scrollIntoView({ behavior: 'smooth', block: 'center' });
+    }, 120);
+
+    return () => window.clearTimeout(timer);
+  }, [collections]);
+
   const filtered = collections.filter((item) =>
     item.name.toLowerCase().includes(query.trim().toLowerCase())
   );

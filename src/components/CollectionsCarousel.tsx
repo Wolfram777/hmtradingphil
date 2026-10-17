@@ -1,19 +1,41 @@
 'use client';
 
 import Image from 'next/image';
+import { useRouter } from 'next/navigation';
 import { useEffect, useRef, useState } from 'react';
 
 const BRAND_RED = '#8b0c0b';
 const AUTOPLAY_MS = 5000;
 
 const covers = [
-  { name: 'Batakan', file: 'COVER PHOTO FOR BATAKAN COLLECTION.jpg' },
-  { name: 'MOP Pinctada', file: 'COVER PHOTO FOR MOP PINCTADA COLLECTION.jpg' },
-  { name: 'Barcelona', file: 'COVER PHOTO FOR BARCELONA COLLECTION.jpg' },
-  { name: 'Pasingan', file: 'COVER PHOTO FOR PASINGAN COLLECTION.jpg' },
-  { name: 'Woven Mats', file: 'COVER PHOTO FOR WOVEN MATS.jpg' },
+  {
+    name: 'Batakan',
+    file: 'COVER PHOTO FOR BATAKAN COLLECTION.jpg',
+    href: '/panel-collection/natural-laminated-panels#batakan',
+  },
+  {
+    name: 'MOP Pinctada',
+    file: 'COVER PHOTO FOR MOP PINCTADA COLLECTION.jpg',
+    href: '/panel-collection/natural-laminated-panels#mop-pinctada-gallery-1',
+  },
+  {
+    name: 'Barcelona',
+    file: 'COVER PHOTO FOR BARCELONA COLLECTION.jpg',
+    href: '/panel-collection/natural-laminated-panels#barcelona',
+  },
+  {
+    name: 'Pasingan',
+    file: 'COVER PHOTO FOR PASINGAN COLLECTION.jpg',
+    href: '/panel-collection/natural-laminated-panels#pasingan',
+  },
+  {
+    name: 'Woven Mats',
+    file: 'COVER PHOTO FOR WOVEN MATS.jpg',
+    href: '/panel-collection/woven-mattings',
+  },
 ].map((cover) => ({
   name: cover.name,
+  href: cover.href,
   src: encodeURI(`/assets/images/panel-collection/${cover.file}`),
 }));
 
@@ -29,9 +51,13 @@ const SLOT_STYLES: Record<number, { x: number; rotate: number; scale: number }> 
 };
 
 export default function CollectionsCarousel() {
+  const router = useRouter();
   const [active, setActive] = useState(0);
   const [paused, setPaused] = useState(false);
   const count = collections.length;
+  const resumeTimer = useRef<ReturnType<typeof setTimeout> | null>(null);
+  const hovering = useRef(false);
+  const touchStartX = useRef<number | null>(null);
 
   useEffect(() => {
     if (paused) return;
@@ -39,14 +65,44 @@ export default function CollectionsCarousel() {
     return () => clearInterval(timer);
   }, [paused, count]);
 
-  const go = (step: number) => setActive((i) => (i + step + count) % count);
-  const touchStartX = useRef<number | null>(null);
+  useEffect(() => {
+    return () => {
+      if (resumeTimer.current) clearTimeout(resumeTimer.current);
+    };
+  }, []);
+
+  const pauseBriefly = () => {
+    setPaused(true);
+    if (resumeTimer.current) clearTimeout(resumeTimer.current);
+    resumeTimer.current = setTimeout(() => {
+      if (!hovering.current) setPaused(false);
+    }, AUTOPLAY_MS);
+  };
+
+  const go = (step: number) => {
+    pauseBriefly();
+    setActive((i) => (i + step + count) % count);
+  };
+
+  const focusCard = (offset: number) => {
+    if (offset === 0) return;
+    pauseBriefly();
+    // Move by signed offset so the clicked card always takes the short path to center
+    setActive((current) => (current + offset + count) % count);
+  };
 
   return (
     <div
       className="relative w-full flex-1 flex flex-col md:flex-row items-center justify-center [--size:clamp(150px,17vw,260px)]"
-      onMouseEnter={() => setPaused(true)}
-      onMouseLeave={() => setPaused(false)}
+      onMouseEnter={() => {
+        hovering.current = true;
+        if (resumeTimer.current) clearTimeout(resumeTimer.current);
+        setPaused(true);
+      }}
+      onMouseLeave={() => {
+        hovering.current = false;
+        setPaused(false);
+      }}
       onTouchStart={(e) => {
         touchStartX.current = e.touches[0].clientX;
       }}
@@ -80,8 +136,11 @@ export default function CollectionsCarousel() {
             >
               <button
                 type="button"
-                onClick={() => setActive(index)}
-                aria-label={`Show ${item.name}`}
+                onClick={() => {
+                  if (offset === 0) router.push(item.href);
+                  else focusCard(offset);
+                }}
+                aria-label={offset === 0 ? `Open ${item.name}` : `Show ${item.name}`}
                 className="relative block aspect-square w-full overflow-hidden rounded-md shadow-[0_24px_40px_-8px_rgba(0,0,0,0.55)] cursor-pointer transition-[scale] duration-300 ease-out hover:scale-105"
               >
                 <Image
