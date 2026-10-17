@@ -6,7 +6,7 @@ import type { GalleryImage } from '@/lib/collectionGallery';
 
 export type CollectionGallery = {
   name: string;
-  coverSrc: string;
+  coverSrc?: string;
   description?: string;
   images: GalleryImage[];
 };
@@ -217,28 +217,34 @@ export default function CollectionModal({ gallery, onClose }: CollectionModalPro
           </svg>
         </button>
 
-        <div className="relative w-full aspect-[21/8.1] md:aspect-[2.667/1] bg-neutral-200">
-          <Image
-            src={displayed.coverSrc}
-            alt={`${displayed.name} cover`}
-            fill
-            sizes="(min-width: 1024px) 1024px, 100vw"
-            className="object-cover"
-            priority
-          />
-          {displayed.description && (
-            <>
-              <div className="absolute inset-0 bg-black/40 pointer-events-none" />
-              <div className="absolute inset-0 flex items-center justify-center px-6">
-                <p className="font-charter text-2xl sm:text-3xl md:text-4xl lg:text-5xl text-white italic text-center max-w-4xl leading-tight [text-shadow:0_2px_12px_rgba(0,0,0,0.55)]">
-                  {displayed.description}
-                </p>
-              </div>
-            </>
-          )}
-        </div>
+        {displayed.coverSrc && (
+          <div className="relative w-full aspect-[21/8.1] md:aspect-[2.667/1] bg-neutral-200">
+            <Image
+              src={displayed.coverSrc}
+              alt={`${displayed.name} cover`}
+              fill
+              sizes="(min-width: 1024px) 1024px, 100vw"
+              className="object-cover"
+              priority
+            />
+            {displayed.description && (
+              <>
+                <div className="absolute inset-0 bg-black/40 pointer-events-none" />
+                <div className="absolute inset-0 flex items-center justify-center px-6">
+                  <p className="font-charter text-2xl sm:text-3xl md:text-4xl lg:text-5xl text-white italic text-center max-w-4xl leading-tight [text-shadow:0_2px_12px_rgba(0,0,0,0.55)]">
+                    {displayed.description}
+                  </p>
+                </div>
+              </>
+            )}
+          </div>
+        )}
 
-        <h2 className="px-6 pt-6 pb-2 text-center font-adobe-aldine text-3xl md:text-5xl font-bold text-[#8b0c0b]">
+        <h2
+          className={`px-6 text-center font-adobe-aldine text-3xl md:text-5xl font-bold text-[#8b0c0b] ${
+            displayed.coverSrc ? 'pt-6 pb-2' : 'pt-12 pb-2 pr-14'
+          }`}
+        >
           {displayed.name}
         </h2>
 

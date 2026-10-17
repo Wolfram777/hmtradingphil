@@ -1,21 +1,54 @@
+import fs from 'fs';
+import path from 'path';
 import CollectionSidebar from '@/components/CollectionSidebar';
-import { versionedImageUrl } from '@/lib/collectionGallery';
+import { toGalleryImages, versionedImageUrl } from '@/lib/collectionGallery';
 
 export const metadata = { title: 'Woven Mattings | Timbermate-HMT Industries Corp.' };
 
+const IMAGE_ROOT = 'woven-mattings';
+
+const SKIP_FILES = /^(cover\.jpg|footer_icons\.jpg|hmt_logo\.jpg)$/i;
+
 const collectionsMeta = [
-  { name: 'RATTAN MATS', file: 'rattan mats.jpg' },
-  { name: 'SET 1', file: 'set 1.jpg' },
-  { name: 'SET 2', file: 'set 2.jpg' },
-  { name: 'SET 3', file: 'set 3.jpg' },
+  { name: 'RATTAN MATS', file: 'rattan mats.jpg', folder: 'rattan' },
+  { name: 'SET 1', file: 'set 1.jpg', folder: 'set1' },
+  { name: 'SET 2', file: 'set 2.jpg', folder: 'set2' },
+  { name: 'SET 3', file: 'set 3.jpg', folder: 'set3' },
 ];
 
+function loadGallery(folder: string) {
+  const dir = path.join(process.cwd(), 'public', 'assets', 'images', IMAGE_ROOT, folder);
+  if (!fs.existsSync(dir)) return [];
+  return fs
+    .readdirSync(dir)
+    .filter((file) => /\.(jpe?g|png|webp)$/i.test(file) && !SKIP_FILES.test(file))
+    .sort((a, b) => a.localeCompare(b, undefined, { sensitivity: 'base' }));
+}
+
+function getCollections() {
+  return collectionsMeta.map((item) => {
+    const dir = path.join(process.cwd(), 'public', 'assets', 'images', IMAGE_ROOT, item.folder);
+    const cardSrc = versionedImageUrl(IMAGE_ROOT, item.file);
+
+    if (!fs.existsSync(dir)) {
+      return { name: item.name, file: item.file, src: cardSrc };
+    }
+
+    const files = loadGallery(item.folder);
+    return {
+      name: item.name,
+      file: item.file,
+      src: cardSrc,
+      gallery: {
+        name: item.name,
+        images: toGalleryImages(`${IMAGE_ROOT}/${item.folder}`, files),
+      },
+    };
+  });
+}
+
 export default function WovenMattingsPage() {
-  const collections = collectionsMeta.map((item) => ({
-    name: item.name,
-    file: item.file,
-    src: versionedImageUrl('woven-mattings', item.file),
-  }));
+  const collections = getCollections();
 
   return (
     <div className="flex flex-col flex-1">
@@ -23,7 +56,7 @@ export default function WovenMattingsPage() {
         <div
           className="absolute inset-0 bg-cover bg-center bg-no-repeat"
           style={{
-            backgroundImage: `url('${versionedImageUrl('woven-mattings', 'woven mattings cover.jpg')}')`,
+            backgroundImage: `url('${versionedImageUrl(IMAGE_ROOT, 'woven mattings cover.jpg')}')`,
           }}
         >
           <div className="absolute inset-0 bg-black/40" />
@@ -36,7 +69,7 @@ export default function WovenMattingsPage() {
       </section>
       <CollectionSidebar
         title="Woven Mattings"
-        imageFolder="woven-mattings"
+        imageFolder={IMAGE_ROOT}
         collections={collections}
       />
     </div>
