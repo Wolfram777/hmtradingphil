@@ -104,6 +104,64 @@ body {
   to { opacity: 1; transform: none; }
 }
 
+/* Collection modal entry / exit */
+@keyframes modal-backdrop-in {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+
+@keyframes modal-backdrop-out {
+  from { opacity: 1; }
+  to { opacity: 0; }
+}
+
+@keyframes modal-panel-in {
+  from {
+    opacity: 0;
+    transform: translateY(20px) scale(0.97);
+  }
+  to {
+    opacity: 1;
+    transform: none;
+  }
+}
+
+@keyframes modal-panel-out {
+  from {
+    opacity: 1;
+    transform: none;
+  }
+  to {
+    opacity: 0;
+    transform: translateY(20px) scale(0.97);
+  }
+}
+
+.animate-modal-backdrop-in {
+  animation: modal-backdrop-in 0.4s ease-in-out both;
+}
+
+.animate-modal-backdrop-out {
+  animation: modal-backdrop-out 0.35s ease-in-out 0.25s both;
+}
+
+.animate-modal-panel-in {
+  animation: modal-panel-in 0.35s cubic-bezier(0.22, 0.8, 0.24, 1) 0.35s both;
+}
+
+.animate-modal-panel-out {
+  animation: modal-panel-out 0.3s cubic-bezier(0.4, 0, 0.8, 0.4) both;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .animate-modal-backdrop-in,
+  .animate-modal-backdrop-out,
+  .animate-modal-panel-in,
+  .animate-modal-panel-out {
+    animation: none;
+  }
+}
+
 /* Upcoming Events arrow nudging right */
 @keyframes nudge-right {
   0%, 100% { transform: translateX(0); }

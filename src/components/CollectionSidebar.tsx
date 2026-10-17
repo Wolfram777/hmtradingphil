@@ -2,31 +2,29 @@
 
 import Image from 'next/image';
 import { useEffect, useRef, useState } from 'react';
+import CollectionModal, { type CollectionGallery } from '@/components/CollectionModal';
 
-const collections = [
-  { name: 'BALU COLLECTION', file: 'balu cover.JPG' },
-  { name: 'BARCELONA COLLECTION', file: 'barcelona cover.JPG' },
-  { name: 'BATAKAN COLLECTION', file: 'batakan cover.JPG' },
-  { name: 'CANA COLLECTION', file: 'cana cover.JPG' },
-  { name: 'CIRKULO COLLECTION', file: 'cirkulo cover.JPG' },
-  { name: 'COCOTERO COLLECTION', file: 'cocotero cover.JPG' },
-  { name: 'COMBINATION COLLECTION', file: 'combination cover.jpg' },
-  { name: 'MOP: PINCTADA COLLECTION - GALLERY 1', file: 'mop pinctada gallery 1 cover.jpg' },
-  { name: 'MOP: PINCTADA COLLECTION - GALLERY 2', file: 'mop pinctada gallery 2.JPG' },
-  { name: 'PALM COLLECTION', file: 'palm cover.jpg' },
-  { name: 'PASINGAN COLLECTION', file: 'pasingan cover.JPG' },
-  { name: 'RECYCLED WOOD COLLECTION', file: 'recycled wood cover.JPG' },
-  { name: 'SAHARA COLLECTION', file: 'sahara cover.jpg' },
-  { name: 'SINSIN COLLECTION', file: 'sinsin cover.JPG' },
-  { name: 'VASCO COLLECTION', file: 'vasco cover.jpg' },
-];
+export type CollectionItem = {
+  name: string;
+  file: string;
+  /** Optional cache-busted URL from the server; preferred over building from `file`. */
+  src?: string;
+  gallery?: CollectionGallery;
+};
+
+type CollectionSidebarProps = {
+  title: string;
+  imageFolder: string;
+  collections: CollectionItem[];
+};
 
 const slug = (name: string) =>
   name.toLowerCase().replace(/[^a-z0-9]+/g, '-').replace(/^-|-$/g, '');
 
-export default function CollectionSidebar() {
-  const [active, setActive] = useState(collections[0].name);
+export default function CollectionSidebar({ title, imageFolder, collections }: CollectionSidebarProps) {
+  const [active, setActive] = useState(collections[0]?.name ?? '');
   const [query, setQuery] = useState('');
+  const [modalGallery, setModalGallery] = useState<CollectionGallery | null>(null);
   const sidebarRef = useRef<HTMLElement>(null);
   const scrollRef = useRef<HTMLDivElement>(null);
 
@@ -56,6 +54,11 @@ export default function CollectionSidebar() {
     document.getElementById(slug(name))?.scrollIntoView({ behavior: 'smooth', block: 'center' });
   };
 
+  const openCard = (item: CollectionItem) => {
+    setActive(item.name);
+    if (item.gallery) setModalGallery(item.gallery);
+  };
+
   return (
     <section
       data-section-id="collections"
@@ -68,7 +71,7 @@ export default function CollectionSidebar() {
       >
         <div className="shrink-0 px-6 md:px-8 pt-12 md:pt-16 pb-4 bg-white">
           <h2 className="font-archivo-narrow font-bold tracking-[0.18em] uppercase text-sm mb-4" style={{ color: '#8b0c0b' }}>
-            Natural Laminated Panels
+            {title}
           </h2>
           <label className="block">
             <span className="sr-only">Search collections</span>
@@ -85,7 +88,7 @@ export default function CollectionSidebar() {
           ref={scrollRef}
           className="md:flex-1 md:min-h-0 md:overflow-y-auto overscroll-contain px-6 md:px-8 [scrollbar-width:none] [-ms-overflow-style:none] [&::-webkit-scrollbar]:hidden"
         >
-          <nav aria-label="Natural laminated panel collections" className="pb-10">
+          <nav aria-label={`${title} collections`} className="pb-10">
             <ul className="space-y-1">
               {filtered.length === 0 && (
                 <li className="font-archivo-narrow font-semibold text-sm uppercase pl-[4em] pr-3 py-2.5 text-[#8b0c0b]/60">
@@ -125,17 +128,23 @@ export default function CollectionSidebar() {
               key={item.name}
               id={slug(item.name)}
               type="button"
-              onClick={() => setActive(item.name)}
-              className="group relative aspect-[80/99] rounded-2xl overflow-hidden bg-neutral-900 shadow-[0_24px_40px_-8px_rgba(0,0,0,0.55)] text-left"
+              onClick={() => openCard(item)}
+              className="group relative aspect-[80/99] rounded-2xl overflow-hidden bg-neutral-900 shadow-[0_10px_24px_-6px_rgba(0,0,0,0.22)] text-left"
             >
               <Image
-                src={encodeURI(`/assets/images/natural-laminated-panels/${item.file}`)}
+                src={item.src ?? encodeURI(`/assets/images/${imageFolder}/${item.file}`)}
                 alt={item.name}
                 fill
                 sizes="(min-width: 1024px) 25vw, (min-width: 640px) 40vw, 100vw"
-                className="object-cover scale-[1.02] transition-[scale] duration-300 group-hover:scale-105"
+                className="object-cover scale-[1.02] transition-[scale,filter] duration-300 group-hover:scale-105 group-hover:brightness-75"
               />
-              <div className="absolute inset-x-0 bottom-0 px-5 pb-5 md:px-6 md:pb-6">
+              <div className="absolute inset-0 bg-black/0 group-hover:bg-black/35 transition-colors duration-300" />
+              <div className="absolute inset-0 flex items-center justify-center px-4">
+                <span className="font-archivo-narrow font-semibold uppercase tracking-wide text-white text-lg md:text-xl [text-shadow:0_2px_10px_rgba(0,0,0,0.85)] opacity-0 translate-y-2 group-hover:opacity-100 group-hover:translate-y-0 transition-[opacity,translate] duration-300">
+                  See Collections
+                </span>
+              </div>
+              <div className="absolute inset-x-0 bottom-0 px-5 pb-5 md:px-6 md:pb-6 z-10">
                 <p className="font-archivo-narrow font-semibold text-white text-left text-xl md:text-2xl [text-shadow:0_2px_10px_rgba(0,0,0,0.85)]">
                   <span className="pb-1 bg-[linear-gradient(currentColor,currentColor)] bg-no-repeat bg-[position:0_100%] bg-[length:0%_2px] group-hover:bg-[length:100%_2px] transition-[background-size] duration-300 ease-out">
                     {item.name}
@@ -146,6 +155,8 @@ export default function CollectionSidebar() {
           ))}
         </div>
       </div>
+
+      <CollectionModal gallery={modalGallery} onClose={() => setModalGallery(null)} />
     </section>
   );
 }
